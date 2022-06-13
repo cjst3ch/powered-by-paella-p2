@@ -133,7 +133,46 @@ public class DatabaseConnection {
     }
 
     public void addReceipt(Receipt receipt) {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT last_value FROM items WHERE receipts_id_seq;";
+            ResultSet result = stmt.executeQuery(sql);
+            result.next();
+            int receiptID = result.getInt("last_value");
 
+            stmt = conn.createStatement();
+            sql = "";
+            sql += "INSERT INTO receipts (transaction_date, total, is_cash, employee_id) VALUES (";
+            sql += "'" + receipt.transactionDate + "', ";
+            sql += String.format("%.2f, ", receipt.total);
+            sql += (receipt.isCash ? "true" : "false") + ", ";
+            sql += receipt.employeeID + ");";
+            stmt.executeUpdate(sql);
+
+            // add in the receipt lines
+            for (Integer itemID : receipt.getItems()) {
+                stmt = conn.createStatement();
+                sql = "INSERT INTO receipt_lines (receipt_id, item_id, quantity) VALUES (";
+                sql += receiptID + ", ";
+                sql += itemID + ", ";
+                sql += receipt.items.get(itemID) + ");";
+                stmt.executeUpdate(sql);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+    }
+
+    public double calcReceiptTotal(Receipt receipt) {
+        double total = 0;
+
+        for (Integer itemID : receipt.getItems()) {
+            total += getItem(itemID).price * receipt.items.get(itemID);
+        }
+
+        return total;
     }
 
     public void addEmployee(Employee employee) {
