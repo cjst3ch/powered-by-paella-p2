@@ -102,7 +102,34 @@ public class DatabaseConnection {
     }
 
     public Receipt getReceipt(int id) {
-        return null;
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT transaction_date, total, is_cash, employee_id FROM receipts WHERE id = " + id + ";";
+            ResultSet result = stmt.executeQuery(sql);
+            result.next();
+
+            // Make receipt
+            Receipt receipt = new Receipt(result.getTimestamp("transaction_date"),
+                                          result.getDouble("total"),
+                                          result.getInt("employee_id"),
+                                          result.getBoolean("is_cash"));
+
+            // Fill in receipt lines
+            stmt = conn.createStatement();
+            sql = "SELECT item_id, quantity FROM receipt_lines WHERE receipt_id = " + id + ";";
+            result = stmt.executeQuery(sql);
+            while (result.next()) {
+                receipt.addItem(result.getInt("item_id"), result.getDouble("quantity"));
+            }
+
+            return receipt;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            return null;
+        }
     }
 
     public void addReceipt(Receipt receipt) {
