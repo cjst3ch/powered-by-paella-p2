@@ -45,14 +45,14 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="596.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Log in" />
             <Label layoutX="515.0" layoutY="242.0" text="Ramon Villa" textAlignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <PasswordField layoutX="546.0" layoutY="373.0" promptText="Password" />
             <TextField layoutX="546.0" layoutY="347.0" promptText="Username" />
+            <PasswordField layoutX="546.0" layoutY="373.0" promptText="Password" />
+            <Button layoutX="596.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Log in" />
       </children>
     </AnchorPane>
   </children>
