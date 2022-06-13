@@ -14,4 +14,12 @@ public class Order {
         this.cost = cost;
         this.items = new HashMap<>();
     }
+
+    public void addItem(int id, double quantity) {
+        if (items.containsKey(id)) {
+            items.replace(id, items.get(id) + quantity);
+        } else {
+            items.put(id, quantity);
+        }
+    }
 }
