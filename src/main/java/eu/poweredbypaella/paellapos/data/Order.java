@@ -6,12 +6,12 @@ import java.util.HashMap;
 
 public class Order {
     public Timestamp deliveryDate;
-    public Double cost;
+    public double cost;
     public HashMap<Integer, Double> items;
 
-    public Order(Timestamp deliveryDate, Double cost, HashMap<Integer, Double> items) {
+    public Order(Timestamp deliveryDate, double cost, HashMap<Integer, Double> items) {
         this.deliveryDate = deliveryDate;
         this.cost = cost;
-        this.items = items;
+        this.items = new HashMap<>();
     }
 }
