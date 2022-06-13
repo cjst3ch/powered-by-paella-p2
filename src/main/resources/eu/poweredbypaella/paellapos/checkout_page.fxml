@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="489.0" layoutY="57.0" prefHeight="58.0" prefWidth="303.0" text="Employee Name" textAlignment="CENTER">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <TableView layoutX="140.0" layoutY="160.0" prefHeight="200.0" prefWidth="1000.0">
+        <columns>
+            <TableColumn prefWidth="250.0" text="Item Name" />
+            <TableColumn prefWidth="250.0" text="Unit Price" />
+            <TableColumn prefWidth="250.0" text="Quantity" />
+            <TableColumn prefWidth="250.0" text="Subtotal" />
+        </columns>
+      </TableView>
+      <Label layoutX="140.0" layoutY="418.0" prefHeight="45.0" prefWidth="136.0" text="Item SKU:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField layoutX="276.0" layoutY="420.0" prefHeight="45.0" prefWidth="178.0" promptText="SKU#">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Label layoutX="483.0" layoutY="417.0" prefHeight="45.0" prefWidth="136.0" text="Quantity:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField layoutX="619.0" layoutY="419.0" prefHeight="45.0" prefWidth="178.0" promptText="Quantity#">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Button layoutX="871.0" layoutY="417.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Enter">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button layoutX="413.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Cash">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="591.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Card">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="404.0" layoutY="598.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="365.0" text="Checkout">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="824.0" layoutY="510.0" prefHeight="45.0" prefWidth="88.0" text="Total:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField editable="false" layoutX="919.0" layoutY="510.0" prefHeight="45.0" prefWidth="178.0" promptText="Total">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Button layoutX="140.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Back">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button layoutX="140.0" layoutY="598.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Logout">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
