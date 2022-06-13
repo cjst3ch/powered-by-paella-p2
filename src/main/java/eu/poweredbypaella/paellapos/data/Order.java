@@ -22,4 +22,8 @@ public class Order {
             items.put(id, quantity);
         }
     }
+
+    public Iterable<Integer> getItems() {
+        return items.keySet();
+    }
 }
