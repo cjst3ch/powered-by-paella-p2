@@ -13,4 +13,28 @@ public class DatabaseConnection {
     public void addItem(int ID) {
 
     }
+
+    public void deleteItem(int ID) {
+
+    }
+
+    public Receipt getReceipt(int ID) {
+        return null;
+    }
+
+    public void addReceipt(Receipt receipt) {
+
+    }
+
+    public void addEmployee(Employee employee) {
+
+    }
+
+    public Employee getEmployee(int ID) {
+        return null;
+    }
+
+    public void deleteEmployee(int ID) {
+
+    }
 }
