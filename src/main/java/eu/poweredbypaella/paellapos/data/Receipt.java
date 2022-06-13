@@ -10,6 +10,10 @@ public class Receipt {
     public int employeeID;
     public boolean isCash;
 
+    public Receipt(Timestamp transactionDate, int employeeID, boolean isCash) {
+        this(transactionDate, 0, employeeID, isCash);
+    }
+
     public Receipt(Timestamp transactionDate, double total, int employeeID, boolean isCash) {
         this.transactionDate = transactionDate;
         this.total = total;
