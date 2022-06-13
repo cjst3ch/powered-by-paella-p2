@@ -240,14 +240,45 @@ public class DatabaseConnection {
     }
 
     public void addEmployee(Employee employee) {
-
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "";
+            sql += "INSERT INTO employees (employee_name, is_admin) VALUES (";
+            sql += "'" + employee.name + "', ";
+            sql += (employee.isAdmin ? "true" : "false") + ");\n";
+            stmt.executeUpdate(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
     }
 
     public Employee getEmployee(int id) {
-        return null;
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT employee_name, is_admin FROM employees WHERE id=" + id + ";";
+            ResultSet result = stmt.executeQuery(sql);
+            result.next();
+            return new Employee(result.getString("employee_name"),
+                    result.getBoolean("is_admin"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            return null;
+        }
     }
 
     public void deleteEmployee(int id) {
-
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = String.format("DELETE FROM employees WHERE id = %d;", id);
+            stmt.executeUpdate(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
     }
 }
