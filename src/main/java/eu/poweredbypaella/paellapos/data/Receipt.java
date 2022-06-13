@@ -17,4 +17,18 @@ public class Receipt {
         this.isCash = isCash;
         this.items = new HashMap<>();
     }
+
+    // Used to "build" receipt line-by-line
+    public void addItem(int id, double quantity) {
+        if (items.containsKey(id)) {
+            items.replace(id, items.get(id) + quantity);
+        } else {
+            items.put(id, quantity);
+        }
+    }
+
+    // Allows for looping over items ("lines") in receipt
+    public Iterable<Integer> getItems() {
+        return items.keySet();
+    }
 }
