@@ -2,23 +2,23 @@ package eu.poweredbypaella.paellapos.data;
 
 public class DatabaseConnection {
 
-    public Item getItem(int ID) {
+    public Item getItem(int id) {
         return null;
     }
 
-    public void setQuantity(int ID) {
+    public void setQuantity(int id) {
 
     }
 
-    public void addItem(int ID) {
+    public void addItem(int id) {
 
     }
 
-    public void deleteItem(int ID) {
+    public void deleteItem(int id) {
 
     }
 
-    public Receipt getReceipt(int ID) {
+    public Receipt getReceipt(int id) {
         return null;
     }
 
@@ -30,11 +30,11 @@ public class DatabaseConnection {
 
     }
 
-    public Employee getEmployee(int ID) {
+    public Employee getEmployee(int id) {
         return null;
     }
 
-    public void deleteEmployee(int ID) {
+    public void deleteEmployee(int id) {
 
     }
 }
