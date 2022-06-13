@@ -135,14 +135,15 @@ public class DatabaseConnection {
     public void addReceipt(Receipt receipt) {
         try {
             Statement stmt = conn.createStatement();
-            String sql = "SELECT last_value FROM items WHERE receipts_id_seq;";
+            String sql = "SELECT id FROM receipts order by id desc limit 1;";
             ResultSet result = stmt.executeQuery(sql);
             result.next();
-            int receiptID = result.getInt("last_value");
+            int receiptID = result.getInt("id") + 1;
 
             stmt = conn.createStatement();
             sql = "";
-            sql += "INSERT INTO receipts (transaction_date, total, is_cash, employee_id) VALUES (";
+            sql += "INSERT INTO receipts (id, transaction_date, total, is_cash, employee_id) VALUES (";
+            sql += receiptID + ", ";
             sql += "'" + receipt.transactionDate + "', ";
             sql += String.format("%.2f, ", receipt.total);
             sql += (receipt.isCash ? "true" : "false") + ", ";
@@ -156,6 +157,69 @@ public class DatabaseConnection {
                 sql += receiptID + ", ";
                 sql += itemID + ", ";
                 sql += receipt.items.get(itemID) + ");";
+                stmt.executeUpdate(sql);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+    }
+
+    public Order getOrder(int id) {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT cost, delivery_date, received FROM order WHERE id = " + id + ";";
+            ResultSet result = stmt.executeQuery(sql);
+            result.next();
+
+            // Make order
+            Order order = new Order(result.getDouble("cost"),
+                    result.getTimestamp("delivery_date"),
+                    result.getBoolean("received"));
+
+            // Fill in order lines
+            stmt = conn.createStatement();
+            sql = "SELECT item_id, quantity FROM order_lines WHERE order_id = " + id + ";";
+            result = stmt.executeQuery(sql);
+            while (result.next()) {
+                order.addItem(result.getInt("item_id"), result.getDouble("quantity"));
+            }
+
+            return order;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+            return null;
+        }
+    }
+
+    public void addOrder(Order order) {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT id FROM orders order by id desc limit 1;";
+            ResultSet result = stmt.executeQuery(sql);
+            result.next();
+            int orderID = result.getInt("id") + 1;
+
+            stmt = conn.createStatement();
+            sql = "";
+            sql += "INSERT INTO orders (id, cost, delivery_date, received) VALUES (";
+            sql += orderID + ", ";
+            sql += String.format("%.2f, ", order.cost);
+            sql += "'" + order.deliveryDate + "', ";
+            sql += (order.received ? "true" : "false") + ");";
+            stmt.executeUpdate(sql);
+
+            // add in the receipt lines
+            for (Integer itemID : order.getItems()) {
+                stmt = conn.createStatement();
+                sql = "INSERT INTO order_lines (order_id, item_id, quantity) VALUES (";
+                sql += orderID + ", ";
+                sql += itemID + ", ";
+                sql += order.items.get(itemID) + ");";
                 stmt.executeUpdate(sql);
             }
         } catch (Exception e) {
