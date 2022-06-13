@@ -1,6 +1,7 @@
 module eu.poweredbypaella.paellapos {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens eu.poweredbypaella.paellapos to javafx.fxml;
