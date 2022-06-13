@@ -6,13 +6,15 @@ import java.util.HashMap;
 
 public class Order {
     public Timestamp deliveryDate;
+    public boolean received;
     public double cost;
     public HashMap<Integer, Double> items;
 
-    public Order(Timestamp deliveryDate, double cost, HashMap<Integer, Double> items) {
+    public Order(double cost, Timestamp deliveryDate, boolean received) {
         this.deliveryDate = deliveryDate;
         this.cost = cost;
         this.items = new HashMap<>();
+        this.received = received;
     }
 
     public void addItem(int id, double quantity) {
