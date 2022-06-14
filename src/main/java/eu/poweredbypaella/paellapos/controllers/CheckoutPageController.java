@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -47,6 +48,8 @@ public class CheckoutPageController implements Initializable {
     public TextField itemPurchased;
     @FXML
     public TextField purchaseQuantity;
+    @FXML
+    public Label unitLabel;
 
     // Card/cash buttons
     @FXML
@@ -155,6 +158,21 @@ public class CheckoutPageController implements Initializable {
     }
 
 
+    @FXML
+    public void skuOnAction(InputEvent event) {
+        System.out.println("ACTION!");
+        try {
+            int itemID = Integer.parseInt(itemPurchased.getText());
+            Item item = db.getItem(itemID);
+            if (item.byWeight) {
+                unitLabel.setText("kg");
+            } else {
+                unitLabel.setText("Unit");
+            }
+        } catch (SQLException e) {
+            unitLabel.setText("");
+        } catch (NumberFormatException e) {}
+    }
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
         parent.openManagerMenuPage();
