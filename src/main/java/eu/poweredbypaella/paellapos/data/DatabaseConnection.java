@@ -1,6 +1,5 @@
 package eu.poweredbypaella.paellapos.data;
 
-import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,9 +238,8 @@ public class DatabaseConnection {
 
     public int addReceipt(Receipt receipt) throws SQLException {
         int receiptID = getNextReceiptID();
-        double totalItemStock;
 
-        System.out.println(String.format("Adding receipt ID %d", receiptID));
+        System.out.printf("Adding receipt ID %d%n", receiptID);
 
         // Fill out id, transaction_date, total, is_cash, employee_id
         pAddReceipt.setInt(1, receiptID);
@@ -332,7 +330,7 @@ public class DatabaseConnection {
                 result.getBoolean("is_admin"));
     }
 
-    public List<Employee> getEmployees(int id) throws SQLException {
+    public List<Employee> getEmployees() throws SQLException {
         List<Employee> employees = new ArrayList<>();
         ResultSet result = pGetEmployees.executeQuery();
         while (result.next()) {
