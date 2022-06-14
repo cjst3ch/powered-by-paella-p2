@@ -139,6 +139,7 @@ public class CheckoutPageController implements Initializable {
 
             // add receipt
             db.addReceipt(currentReceipt);
+            itemTable.getItems().clear();
         } catch (SQLException e) {
             System.err.println(e.toString());
             e.printStackTrace();
