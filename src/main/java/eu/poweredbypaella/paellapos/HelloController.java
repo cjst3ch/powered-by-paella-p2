@@ -14,14 +14,6 @@ public class HelloController {
 
     // NAVAGATION MENU
     @FXML
-    protected void onCheckoutPageClick() {}
-
-    // INVENTORY MANAGEMENT
-
-    @FXML
-    protected void onUpdateInventoryClick() {}
-
-    @FXML
     protected void onInventoryMgmtClick() {}
 
     @FXML
@@ -38,5 +30,23 @@ public class HelloController {
 
     @FXML
     protected void onBackClick() {}
+    @FXML
+    protected void onCheckoutPageClick() {}
+
+    // INVENTORY MANAGEMENT
+
+    @FXML
+    protected void onUpdateInventoryClick() {}
+
+    // CHECKOUT PAGE
+    @FXML
+    protected void onCashPaymentClick() {}
+
+    @FXML
+    protected void onCardPaymentClick() {}
+
+    @FXML
+    protected void onCheckoutReadyClick() {}
+
 
 }
