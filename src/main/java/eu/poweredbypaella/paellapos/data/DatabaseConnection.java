@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnection {
-d
+
     private final String URL = "jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315950_3db";
     private final String USERNAME = "csce315950_3user";
     private final String PASSWORD = "team3three";
