@@ -19,11 +19,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class CheckoutController implements Initializable {
+public class CheckoutPageController implements Initializable {
     // Employee name label
     @FXML
     public Label employeeNameLabel;

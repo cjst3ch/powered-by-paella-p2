@@ -12,7 +12,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("presentation_stack.fxml"));
         int width = 1280;
         int height = 720;
 

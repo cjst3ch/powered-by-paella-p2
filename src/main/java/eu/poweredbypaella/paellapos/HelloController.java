@@ -2,6 +2,7 @@ package eu.poweredbypaella.paellapos;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
@@ -69,23 +70,25 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = new DatabaseConnection();
 
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+//        System.out.println(receipts);
+
+//        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+//        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+//        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         // Start cheat sheet window
-        Parent root;
-        try {
-            root = FXMLLoader.load(HelloApplication.class.getResource("cheat_sheet.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Item Cheat Sheet");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.setAlwaysOnTop(true);
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+//        Parent root;
+//        try {
+//            root = FXMLLoader.load(HelloApplication.class.getResource("cheat_sheet.fxml"));
+//            Stage stage = new Stage();
+//            stage.setTitle("Item Cheat Sheet");
+//            stage.setScene(new Scene(root, 450, 450));
+//            stage.setAlwaysOnTop(true);
+//            stage.show();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @FXML
@@ -101,14 +104,10 @@ public class HelloController implements Initializable {
 
     public void onLoginClick(ActionEvent event) throws IOException, SQLException {
         if (db.getEmployee(employeeID).isAdmin) {
-            root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
+            switchToManagerMenu(event);
         } else {
-            root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
+            switchToCheckoutPage(event);
         }
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
@@ -119,12 +118,15 @@ public class HelloController implements Initializable {
         stage.show();
     }
 
-    public void switchToCheckoutPage(ActionEvent event) throws IOException {
+    public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
         root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+        // Setup login page
+        employeeNameLabel.setText(db.getEmployee(employeeID).name);
     }
   
     @FXML
