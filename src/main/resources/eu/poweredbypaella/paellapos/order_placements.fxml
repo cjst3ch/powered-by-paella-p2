@@ -26,37 +26,37 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="181.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="50.0" prefWidth="240.0" text="Back">
+      <Button layoutX="50.0" layoutY="181.0" mnemonicParsing="false" onAction="#switchToManagerMenu" prefHeight="50.0" prefWidth="240.0" text="Back">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="245.0" mnemonicParsing="false" onAction="#onCheckoutPageClick" prefHeight="50.0" prefWidth="240.0" text="Checkout Page">
+      <Button layoutX="50.0" layoutY="245.0" mnemonicParsing="false" onAction="#switchToCheckoutPage" prefHeight="50.0" prefWidth="240.0" text="Checkout Page">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="310.0" mnemonicParsing="false" onAction="#onInventoryMgmtClick" prefHeight="50.0" prefWidth="240.0" text="Inventory Management">
+      <Button layoutX="50.0" layoutY="310.0" mnemonicParsing="false" onAction="#switchToInventoryManagement" prefHeight="50.0" prefWidth="240.0" text="Inventory Management">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="381.0" mnemonicParsing="false" onAction="#onReceiptsClick" prefHeight="50.0" prefWidth="240.0" text="Receipts">
+      <Button layoutX="50.0" layoutY="381.0" mnemonicParsing="false" onAction="#switchToReceipts" prefHeight="50.0" prefWidth="240.0" text="Receipts">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="450.0" mnemonicParsing="false" onAction="#onOrderPlacementsClick" prefHeight="50.0" prefWidth="240.0" text="Order Placements">
+      <Button layoutX="50.0" layoutY="450.0" mnemonicParsing="false" onAction="#switchToOrderPlacement" prefHeight="50.0" prefWidth="240.0" text="Order Placements">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="518.0" mnemonicParsing="false" onAction="#onOrderListClick" prefHeight="50.0" prefWidth="240.0" text="Order List">
+      <Button layoutX="50.0" layoutY="518.0" mnemonicParsing="false" onAction="#switchToOrderList" prefHeight="50.0" prefWidth="240.0" text="Order List">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="50.0" layoutY="587.0" mnemonicParsing="false" onAction="#onLogoutClick" prefHeight="50.0" prefWidth="240.0" text="Logout">
+      <Button layoutX="50.0" layoutY="587.0" mnemonicParsing="false" onAction="#switchToLoginPage" prefHeight="50.0" prefWidth="240.0" text="Logout">
          <font>
             <Font size="20.0" />
          </font>

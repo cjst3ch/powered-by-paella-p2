@@ -1,5 +1,8 @@
 package eu.poweredbypaella.paellapos;
 
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
@@ -86,33 +89,87 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void onLoginClick() {
-        welcomeText.setText("Welcome to PaellaPOS!");
-    }
+    protected Button backButton;
 
 
     // NAVIGATION MENU
-    @FXML
-    protected void onInventoryMgmtClick() {}
 
-    @FXML
-    protected void onReceiptsClick() {}
 
-    @FXML
-    protected void onOrderPlacementsClick() {}
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
-    @FXML
-    protected void onOrderListClick() {}
+    public void onLoginClick(ActionEvent event) throws IOException {
+        if () {
+            root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
+        } else {
+            root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
+        }
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    public void switchToManagerMenu(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToCheckoutPage(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+  
     @FXML
     public void onLogoutClick() {
         System.exit(0);
     }
 
-    @FXML
-    protected void onBackClick() {}
-    @FXML
-    protected void onCheckoutPageClick() {}
+    public void switchToLoginPage(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("login_page.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToInventoryManagement(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("inventory_management.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToOrderList(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("order_list.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToOrderPlacement(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("order_placements.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToReceipts(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("receipts.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
     // INVENTORY MANAGEMENT
@@ -201,6 +258,5 @@ public class HelloController implements Initializable {
 
     @FXML
     protected void onPlaceOrderClick() {}
-
 
 }
