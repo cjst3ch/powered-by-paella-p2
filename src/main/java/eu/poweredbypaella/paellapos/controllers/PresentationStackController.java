@@ -1,13 +1,12 @@
 package eu.poweredbypaella.paellapos.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.AnchorPane;
 
 public class PresentationStackController {
 
     // PAGES
     @FXML
-    public CheckoutPageController checkoutPage;
+    public OldCheckoutPageController checkoutPage;
     @FXML
     public InventoryManagementController inventoryManagement;
     @FXML
