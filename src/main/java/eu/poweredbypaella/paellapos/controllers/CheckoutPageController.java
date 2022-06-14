@@ -5,7 +5,9 @@ import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -17,11 +19,9 @@ import java.time.Instant;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class CheckoutPageController {
+public class CheckoutPageController implements Initializable {
 
     // ROOT
-    @FXML
-    public VBox root;
     public PresentationStackController parent;
 
     // Back button
@@ -67,7 +67,12 @@ public class CheckoutPageController {
     private boolean isCash = false;
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {}
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        db = new DatabaseConnection();
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    }
     private void renderReceipt(Receipt receipt) {
         itemTable.getItems().clear();
         try {

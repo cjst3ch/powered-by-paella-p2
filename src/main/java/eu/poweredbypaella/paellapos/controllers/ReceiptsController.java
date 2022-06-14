@@ -4,6 +4,7 @@ import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,7 +17,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ReceiptsController {
+public class ReceiptsController implements Initializable {
     @FXML
     public AnchorPane myRoot;
     public PresentationStackController parent;

@@ -49,8 +49,5 @@ public class LoginPageController implements Initializable {
 
     public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
         parent.openCheckoutPage();
-
-        // Setup login page
-        employeeNameLabel.setText(db.getEmployee(employeeID).name);
     }
 }

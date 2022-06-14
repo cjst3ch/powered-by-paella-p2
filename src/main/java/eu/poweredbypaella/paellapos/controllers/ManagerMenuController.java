@@ -4,6 +4,7 @@ import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,7 +17,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ManagerMenuController {
+public class ManagerMenuController implements Initializable {
     private DatabaseConnection db;
     private int employeeID = 2;
 
@@ -33,9 +34,6 @@ public class ManagerMenuController {
 
     public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
         parent.openCheckoutPage();
-
-        // Setup login page
-        employeeNameLabel.setText(db.getEmployee(employeeID).name);
     }
 
     public void switchToInventoryManagement(ActionEvent event) throws IOException {
