@@ -50,9 +50,9 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <TextField layoutX="546.0" layoutY="347.0" promptText="Username" />
-            <PasswordField layoutX="546.0" layoutY="373.0" promptText="Password" />
-            <Button layoutX="596.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Log in" />
+            <TextField fx:id="username" layoutX="546.0" layoutY="347.0" promptText="Username" />
+            <PasswordField fx:id="password" layoutX="546.0" layoutY="373.0" promptText="Password" />
+            <Button fx:id="loginButton" layoutX="596.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginClick" text="Log in" />
       </children>
     </AnchorPane>
   </children>

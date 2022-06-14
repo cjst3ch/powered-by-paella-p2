@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,50 +15,53 @@
             <Font size="45.0" />
          </font>
       </Label>
+      <DatePicker fx:id="fromInventoryDate" layoutX="765.0" layoutY="147.0" promptText="From" />
+      <DatePicker fx:id="toInventoryDate" layoutX="1041.0" layoutY="147.0" promptText="To" />
       <TableView layoutX="315.0" layoutY="172.0" prefHeight="373.0" prefWidth="900.0">
         <columns>
-          <TableColumn prefWidth="225.0" text="Item" />
-          <TableColumn prefWidth="225.0" text="Quantity" />
-            <TableColumn prefWidth="225.0" text="Gross Total" />
-            <TableColumn prefWidth="225.0" text="Inventory" />
+          <TableColumn fx:id="inventoryItem" prefWidth="180.0" text="Item" />
+          <TableColumn fx:id="inventoryQuantitySold" prefWidth="180.0" text="Quantity Sold" />
+            <TableColumn fx:id="inventoryGrossTotal" prefWidth="180.0" text="Gross Total" />
+            <TableColumn fx:id="inventoryAmtRemove" prefWidth="180.0" text="Amount to Remove" />
+            <TableColumn fx:id="inventoryOnHand" prefWidth="180.0" text="Inventory On Hand" />
         </columns>
       </TableView>
-      <Button layoutX="975.0" layoutY="561.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Update Inventory">
+      <Button layoutX="975.0" layoutY="561.0" mnemonicParsing="false" onAction="#onUpdateInventoryClick" prefHeight="58.0" prefWidth="240.0" text="Update Inventory">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="172.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Back">
+      <Button layoutX="35.0" layoutY="172.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="58.0" prefWidth="240.0" text="Back">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="251.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Checkout Page">
+      <Button layoutX="35.0" layoutY="251.0" mnemonicParsing="false" onAction="#onCheckoutPageClick" prefHeight="58.0" prefWidth="240.0" text="Checkout Page">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="331.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Inventory Management">
+      <Button layoutX="35.0" layoutY="331.0" mnemonicParsing="false" onAction="#onInventoryMgmtClick" prefHeight="58.0" prefWidth="240.0" text="Inventory Management">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="411.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Day Stats">
+      <Button layoutX="35.0" layoutY="411.0" mnemonicParsing="false" onAction="#onReceiptsClick" prefHeight="58.0" prefWidth="240.0" text="Receipts">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="488.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Order Placements">
+      <Button layoutX="35.0" layoutY="488.0" mnemonicParsing="false" onAction="#onOrderPlacementsClick" prefHeight="58.0" prefWidth="240.0" text="Order Placements">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="561.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Current Orders">
+      <Button layoutX="35.0" layoutY="561.0" mnemonicParsing="false" onAction="#onOrderListClick" prefHeight="58.0" prefWidth="240.0" text="Order List">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="35.0" layoutY="636.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="240.0" text="Logout">
+      <Button layoutX="35.0" layoutY="636.0" mnemonicParsing="false" onAction="#onLogoutClick" prefHeight="58.0" prefWidth="240.0" text="Logout">
          <font>
             <Font size="20.0" />
          </font>

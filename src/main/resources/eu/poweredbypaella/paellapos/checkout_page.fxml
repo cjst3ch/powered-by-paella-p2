@@ -17,10 +17,10 @@
       </Label>
       <TableView layoutX="140.0" layoutY="160.0" prefHeight="200.0" prefWidth="1000.0">
         <columns>
-            <TableColumn prefWidth="250.0" text="Item Name" />
-            <TableColumn prefWidth="250.0" text="Unit Price" />
-            <TableColumn prefWidth="250.0" text="Quantity" />
-            <TableColumn prefWidth="250.0" text="Subtotal" />
+            <TableColumn fx:id="checkoutItemName" editable="false" prefWidth="250.0" text="Item Name" />
+            <TableColumn fx:id="checkoutUnitPrice" editable="false" prefWidth="250.0" text="Unit Price" />
+            <TableColumn fx:id="checkoutQuantity" prefWidth="250.0" text="Quantity" />
+            <TableColumn fx:id="checkoutSubtotal" editable="false" prefWidth="250.0" text="Subtotal" />
         </columns>
       </TableView>
       <Label layoutX="140.0" layoutY="418.0" prefHeight="45.0" prefWidth="136.0" text="Item SKU:">
@@ -28,7 +28,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <TextField layoutX="276.0" layoutY="420.0" prefHeight="45.0" prefWidth="178.0" promptText="SKU#">
+      <TextField fx:id="itemPurchased" layoutX="276.0" layoutY="420.0" prefHeight="45.0" prefWidth="178.0" promptText="SKU#">
          <font>
             <Font size="20.0" />
          </font>
@@ -38,26 +38,31 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <TextField layoutX="619.0" layoutY="419.0" prefHeight="45.0" prefWidth="178.0" promptText="Quantity#">
+      <TextField fx:id="purchaseQuantity" layoutX="619.0" layoutY="419.0" prefHeight="45.0" prefWidth="178.0" promptText="Quantity#">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <Button layoutX="871.0" layoutY="417.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Enter">
+      <Label layoutX="807.0" layoutY="420.0" prefHeight="45.0" prefWidth="61.0" text="Unit">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="919.0" layoutY="417.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Enter">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button layoutX="413.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Cash">
+      <Button layoutX="413.0" layoutY="510.0" mnemonicParsing="false" onAction="#onCashPaymentClick" prefHeight="45.0" prefWidth="178.0" text="Cash">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="591.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Card">
+      <Button layoutX="591.0" layoutY="510.0" mnemonicParsing="false" onAction="#onCardPaymentClick" prefHeight="45.0" prefWidth="178.0" text="Card">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="404.0" layoutY="598.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="365.0" text="Checkout">
+      <Button layoutX="404.0" layoutY="598.0" mnemonicParsing="false" onAction="#onCheckoutReadyClick" prefHeight="45.0" prefWidth="365.0" text="Checkout">
          <font>
             <Font size="20.0" />
          </font>
@@ -67,16 +72,16 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <TextField editable="false" layoutX="919.0" layoutY="510.0" prefHeight="45.0" prefWidth="178.0" promptText="Total">
+      <TextField fx:id="purchaseTotal" editable="false" layoutX="919.0" layoutY="510.0" prefHeight="45.0" prefWidth="178.0" promptText="Total">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <Button layoutX="140.0" layoutY="510.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Back">
+      <Button layoutX="140.0" layoutY="510.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="45.0" prefWidth="178.0" text="Back">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button layoutX="140.0" layoutY="598.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="178.0" text="Logout">
+      <Button layoutX="140.0" layoutY="598.0" mnemonicParsing="false" onAction="#onLogoutClick" prefHeight="45.0" prefWidth="178.0" text="Logout">
          <font>
             <Font size="20.0" />
          </font></Button>

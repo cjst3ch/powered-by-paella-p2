@@ -8,8 +8,11 @@ public class HelloController {
     private Label welcomeText;
 
     @FXML
-    protected void onLoginButtonClick() {
+    protected void onLoginClick() {
         welcomeText.setText("Welcome to PaellaPOS!");
     }
+
+    @FXML
+    protected void onCheckoutPageClick() {}
 
 }
