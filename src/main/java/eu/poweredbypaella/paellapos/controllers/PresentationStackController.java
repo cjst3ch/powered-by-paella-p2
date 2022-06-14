@@ -1,69 +1,88 @@
 package eu.poweredbypaella.paellapos.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PresentationStackController {
+public class PresentationStackController implements Initializable {
     // STACK PANE
     @FXML
     public StackPane stack;
 
     // PAGES
     @FXML
-    public CheckoutPageController checkoutPage;
+    public AnchorPane checkoutPage;
     @FXML
-    public InventoryManagementController inventoryManagement;
+    public AnchorPane inventoryManagement;
     @FXML
-    public LoginPageController loginPage;
+    public VBox loginPage;
     @FXML
-    public ManagerMenuController managerMenu;
+    public AnchorPane managerMenu;
     @FXML
-    public OrderListController orderList;
+    public AnchorPane orderList;
     @FXML
-    public OrderPlacementsController orderPlacements;
+    public AnchorPane orderPlacements;
     @FXML
-    public ReceiptsController receipts;
+    public AnchorPane receipts;
+
+    // PAGES
+    @FXML
+    public CheckoutPageController checkoutPageController;
+    @FXML
+    public InventoryManagementController inventoryManagementController;
+    @FXML
+    public LoginPageController loginPageController;
+    @FXML
+    public ManagerMenuController managerMenuController;
+    @FXML
+    public OrderListController orderListController;
+    @FXML
+    public OrderPlacementsController orderPlacementsController;
+    @FXML
+    public ReceiptsController receiptsController;
 
     // Page switching
     public void openCheckoutPage() {
-        checkoutPage.root.toFront();
+        checkoutPage.toFront();
     }
 
     public void openInventoryManagementPage() {
-        inventoryManagement.root.toFront();
+        inventoryManagement.toFront();
     }
 
     public void openLoginPage() {
-        loginPage.root.toFront();
+        loginPage.toFront();
     }
 
     public void openManagerMenuPage() {
-        managerMenu.root.toFront();
+        managerMenu.toFront();
     }
 
     public void openOrderListPage() {
-        orderList.root.toFront();
+        orderList.toFront();
     }
 
     public void openOrderPlacementsPage() {
-        orderPlacements.root.toFront();
+        orderPlacements.toFront();
     }
 
     public void openReceiptsPage() {
-        receipts.root.toFront();
+        receipts.toFront();
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        checkoutPage.parent = this;
-        inventoryManagement.parent = this;
-        loginPage.parent = this;
-        managerMenu.parent = this;
-        orderList.parent = this;
-        orderPlacements.parent = this;
-        receipts.parent = this;
+        checkoutPageController.parent = this;
+        inventoryManagementController.parent = this;
+        loginPageController.parent = this;
+        managerMenuController.parent = this;
+        orderListController.parent = this;
+        orderPlacementsController.parent = this;
+        receiptsController.parent = this;
     }
 }

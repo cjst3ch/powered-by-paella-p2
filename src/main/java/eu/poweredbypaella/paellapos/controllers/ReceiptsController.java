@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class ReceiptsController {
     @FXML
-    public AnchorPane root;
+    public AnchorPane myRoot;
     public PresentationStackController parent;
 
     @FXML

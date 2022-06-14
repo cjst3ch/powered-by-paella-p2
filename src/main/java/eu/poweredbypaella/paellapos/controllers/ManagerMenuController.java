@@ -21,7 +21,7 @@ public class ManagerMenuController {
     private int employeeID = 2;
 
     @FXML
-    public VBox root;
+    public VBox myRoot;
     public PresentationStackController parent;
 
     @FXML
