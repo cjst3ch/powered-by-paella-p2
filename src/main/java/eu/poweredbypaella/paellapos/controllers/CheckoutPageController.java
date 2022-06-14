@@ -5,11 +5,17 @@ import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CheckoutPageController {
+
+    // ROOT
+    @FXML
+    public VBox root;
+    public PresentationStackController parent;
 
     // Back button
     @FXML
