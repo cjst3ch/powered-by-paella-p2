@@ -15,4 +15,27 @@ public class HelloController {
     @FXML
     protected void onCheckoutPageClick() {}
 
+    // INVENTORY MANAGEMENT
+
+    @FXML
+    protected void onUpdateInventoryClick() {}
+
+    @FXML
+    protected void onInventoryMgmtClick() {}
+
+    @FXML
+    protected void onReceiptsClick() {}
+
+    @FXML
+    protected void onOrderPlacementsClick() {}
+
+    @FXML
+    protected void onOrderListClick() {}
+
+    @FXML
+    protected void onLogoutClick() {}
+
+    @FXML
+    protected void onBackClick() {}
+
 }

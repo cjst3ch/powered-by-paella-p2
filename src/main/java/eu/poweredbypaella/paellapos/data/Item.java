@@ -10,4 +10,12 @@ public class Item {
         this.price = price;
         this.byWeight = byWeight;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
 }

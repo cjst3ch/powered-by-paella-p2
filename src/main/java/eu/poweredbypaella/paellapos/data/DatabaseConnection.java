@@ -13,13 +13,14 @@ public class DatabaseConnection {
 
     Connection conn;
 
-    // Get/add/remove item(s)
+    // Add/get/remove item(s)
     private PreparedStatement pAddItem;
     private PreparedStatement pGetItem;
     private PreparedStatement pGetItems;
     private PreparedStatement pDeleteItem;
 
-    // Update quantity of an item
+    // Get/set quantity of an item
+    private PreparedStatement pGetQuantity;
     private PreparedStatement pSetQuantity;
 
     // Get next receipt/order ID
@@ -42,7 +43,7 @@ public class DatabaseConnection {
     private PreparedStatement pAddOrder;
     private PreparedStatement pAddOrderLine;
 
-    // Get/add/remove employee(s)
+    // Add/get/remove employee(s)
     private PreparedStatement pAddEmployee;
     private PreparedStatement pGetEmployee;
     private PreparedStatement pGetEmployees;
@@ -58,10 +59,11 @@ public class DatabaseConnection {
             pAddItem = conn.prepareStatement("INSERT INTO items (display_name, unit_price, by_weight) VALUES (?, ?, ?)");
             pGetItem = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items WHERE id = ?");
             pGetItems = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items");
-            pSetQuantity = conn.prepareStatement("UPDATE items SET remaining_stock = ? WHERE id = ?");
+            pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?");
 
             // Update quantity of an item
-            pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?");
+            pGetQuantity = conn.prepareStatement("SELECT remaining_stock FROM items WHERE id = ?");
+            pSetQuantity = conn.prepareStatement("UPDATE items SET remaining_stock = ? WHERE id = ?");
 
             // Get next receipt/order ID
             pGetNextReceiptID = conn.prepareStatement("SELECT id FROM receipts order by id desc limit 1");
@@ -169,6 +171,13 @@ public class DatabaseConnection {
     public void deleteItem(int id) throws SQLException {
         pDeleteItem.setInt(1, id);
         pDeleteItem.executeUpdate();
+    }
+
+    public double getQuantity(int id) throws SQLException {
+        pGetQuantity.setInt(1, id);
+        ResultSet result = pGetReceipt.executeQuery();
+        result.next();
+        return result.getDouble("remaining_stock");
     }
 
     public void setQuantity(int id, double quantity) throws SQLException {
