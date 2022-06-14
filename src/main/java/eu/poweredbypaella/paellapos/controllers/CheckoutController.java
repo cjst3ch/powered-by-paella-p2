@@ -1,8 +1,6 @@
-package eu.poweredbypaella.paellapos;
+package eu.poweredbypaella.paellapos.controllers;
 
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.stage.Stage;
+import eu.poweredbypaella.paellapos.HelloApplication;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
@@ -21,11 +19,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
-
+public class CheckoutController implements Initializable {
+    // Employee name label
     @FXML
     public Label employeeNameLabel;
 
@@ -60,12 +59,6 @@ public class HelloController implements Initializable {
     private int employeeID = 2;
 
     @FXML
-    private Label welcomeText;
-
-    private Receipt currentReceipt = new Receipt();
-    private boolean isCash = false;
-
-    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = new DatabaseConnection();
 
@@ -88,98 +81,9 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
-    protected Button backButton;
+    private Receipt currentReceipt = new Receipt();
+    private boolean isCash = false;
 
-
-    // NAVIGATION MENU
-
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
-    public void onLoginClick(ActionEvent event) throws IOException {
-        if () {
-            root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
-        } else {
-            root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
-        }
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToManagerMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToCheckoutPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-  
-    @FXML
-    public void onLogoutClick() {
-        System.exit(0);
-    }
-
-    public void switchToLoginPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login_page.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToInventoryManagement(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("inventory_management.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToOrderList(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("order_list.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToOrderPlacement(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("order_placements.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void switchToReceipts(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("receipts.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
-    // INVENTORY MANAGEMENT
-
-
-    @FXML
-    protected void onUpdateInventoryClick() {}
-
-
-    // CHECKOUT PAGE
     private void renderReceipt(Receipt receipt) {
         itemTable.getItems().clear();
         try {
@@ -252,11 +156,11 @@ public class HelloController implements Initializable {
         }
     }
 
-
-    // ORDER PLACEMENTS
-
+    @FXML
+    public void onBackClick() {}
 
     @FXML
-    protected void onPlaceOrderClick() {}
-
+    public void onLogoutClick() {
+        System.exit(0);
+    }
 }

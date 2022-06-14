@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="itemTable" prefHeight="163.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="eu.poweredbypaella.paellapos.controllers.CheatSheetController">
+    <columns>
+        <TableColumn fx:id="idColumn" editable="false" prefWidth="100.0" text="Item ID" />
+        <TableColumn fx:id="nameColumn" editable="false" prefWidth="350.0" text="Item Name" />
+    </columns>
+</TableView>
