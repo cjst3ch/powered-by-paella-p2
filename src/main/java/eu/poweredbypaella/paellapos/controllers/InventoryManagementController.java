@@ -81,6 +81,8 @@ public class InventoryManagementController implements Initializable {
         int itemID = db.addItem(newItem);
         db.setQuantity(itemID, Double.parseDouble(itemQuantity.getText()));
         refreshTable();
+
+        // Clear inputs
         itemName.clear();
         itemUnitPrice.clear();
         itemQuantity.clear();
@@ -92,11 +94,15 @@ public class InventoryManagementController implements Initializable {
         Item selected = invTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
-        Item newItem = new Item(selected.id, itemName.getText(),
-                Double.parseDouble(itemUnitPrice.getText()),
-                itemByWeight.isSelected(), Double.parseDouble(itemQuantity.getText()));
+        Item newItem = new Item(selected.id,
+                                itemName.getText(),
+                                Double.parseDouble(itemUnitPrice.getText()),
+                                itemByWeight.isSelected(),
+                                Double.parseDouble(itemQuantity.getText()));
         db.updateItem(newItem);
         refreshTable();
+
+        // Clear inputs
         itemName.clear();
         itemUnitPrice.clear();
         itemQuantity.clear();
@@ -110,6 +116,8 @@ public class InventoryManagementController implements Initializable {
 
         db.deleteItem(selected.id);
         refreshTable();
+
+        // Clear inputs
         itemName.clear();
         itemUnitPrice.clear();
         itemQuantity.clear();
