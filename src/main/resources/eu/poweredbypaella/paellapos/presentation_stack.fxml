@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane fx:id="stack" fx:controller="eu.poweredbypaella.paellapos.controllers.PresentationStackController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <fx:include fx:id="receipts" source="receipts.fxml" />
+        <fx:include fx:id="managerMenu" source="manager_menu.fxml" />
+        <fx:include fx:id="orderPlacements" source="order_placements.fxml" />
+        <fx:include fx:id="orderList" source="order_list.fxml" />
+        <fx:include fx:id="inventoryManagement" source="inventory_management.fxml" />
+        <fx:include fx:id="checkoutPage" source="checkout_page.fxml" />
+        <fx:include fx:id="loginPage" source="login_page.fxml" />
+    </children>
+</StackPane>
