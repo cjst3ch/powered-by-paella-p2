@@ -3,6 +3,9 @@ package eu.poweredbypaella.paellapos.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class PresentationStackController {
     // STACK PANE
     @FXML
@@ -51,5 +54,16 @@ public class PresentationStackController {
 
     public void openReceiptsPage() {
         receipts.root.toFront();
+    }
+
+    @FXML
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        checkoutPage.parent = this;
+        inventoryManagement.parent = this;
+        loginPage.parent = this;
+        managerMenu.parent = this;
+        orderList.parent = this;
+        orderPlacements.parent = this;
+        receipts.parent = this;
     }
 }
