@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,9 +20,11 @@ public class LoginPageController {
 
     private DatabaseConnection db;
     private int employeeID = 2;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+
+    @FXML
+    public VBox root;
+    public PresentationStackController parent;
+
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,19 +43,11 @@ public class LoginPageController {
     }
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        parent.openManagerMenuPage();
     }
 
     public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
-        root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        parent.openCheckoutPage();
 
         // Setup login page
         employeeNameLabel.setText(db.getEmployee(employeeID).name);
