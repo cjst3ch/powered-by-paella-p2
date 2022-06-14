@@ -176,7 +176,7 @@ public class DatabaseConnection {
     public Order getOrder(int id) {
         try {
             Statement stmt = conn.createStatement();
-            String sql = "SELECT cost, delivery_date, received FROM order WHERE id = " + id + ";";
+            String sql = "SELECT cost, delivery_date, received FROM orders WHERE id = " + id + ";";
             ResultSet result = stmt.executeQuery(sql);
             result.next();
 

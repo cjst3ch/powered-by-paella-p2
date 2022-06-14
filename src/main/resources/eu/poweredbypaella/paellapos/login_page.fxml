@@ -41,7 +41,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.poweredbypaella.paellapos.HelloController">
+<VBox prefHeight="720.0" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.poweredbypaella.paellapos.controllers.LoginController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -50,8 +50,8 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <TextField layoutX="546.0" layoutY="347.0" promptText="Username" />
-            <PasswordField layoutX="546.0" layoutY="373.0" promptText="Password" />
+            <TextField layoutX="546.0" layoutY="347.0" promptText="Username" fx:id="username" />
+            <PasswordField layoutX="546.0" layoutY="373.0" promptText="Password" fx:id="password" onKeyPressed="#onPasswordKeyPressed"/>
             <Button layoutX="596.0" layoutY="414.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Log in" />
       </children>
     </AnchorPane>

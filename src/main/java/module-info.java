@@ -6,4 +6,5 @@ module eu.poweredbypaella.paellapos {
 
     opens eu.poweredbypaella.paellapos to javafx.fxml;
     exports eu.poweredbypaella.paellapos;
+    exports eu.poweredbypaella.paellapos.controllers;
 }

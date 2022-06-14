@@ -1,5 +1,7 @@
 package eu.poweredbypaella.paellapos;
 
+import eu.poweredbypaella.paellapos.data.DatabaseConnection;
+import eu.poweredbypaella.paellapos.data.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
