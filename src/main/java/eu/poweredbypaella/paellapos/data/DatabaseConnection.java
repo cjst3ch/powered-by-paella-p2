@@ -13,10 +13,25 @@ public class DatabaseConnection {
     private final String USERNAME = "csce315950_3user";
     private final String PASSWORD = "team3three";
 
+    private PreparedStatement pGetItems;
+    private PreparedStatement pGetItem;
+    private PreparedStatement pSetQuantity;
+    private PreparedStatement pAddItem;
+    private PreparedStatement pDeleteItem;
+    private PreparedStatement pGetReceipt;
+
+
     public DatabaseConnection() {
         try {
             Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            pGetItems = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items;");
+            pGetItem = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items WHERE id = ?;");
+            pSetQuantity = conn.prepareStatement("UPDATE items SET remaining_stock = ? WHERE id = ?;");
+            pAddItem = conn.prepareStatement("INSERT INTO items (display_name, unit_price, by_weight) VALUES (?, ?, ?);");
+            pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?;");
+            pGetReceipt = conn.prepareStatement( "SELECT transaction_date, total, is_cash, employee_id FROM receipts WHERE id = ?;");
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -27,9 +42,7 @@ public class DatabaseConnection {
     public List<Item> getItems() {
         List<Item> items = new ArrayList<>();
         try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT display_name, unit_price, by_weight FROM items;";
-            ResultSet result = stmt.executeQuery(sql);
+            ResultSet result = pGetItems.executeQuery();
             while (result.next()) {
                 items.add(new Item(result.getString("display_name"),
                                    result.getDouble("unit_price"),
@@ -46,9 +59,8 @@ public class DatabaseConnection {
 
     public Item getItem(int id) {
         try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT display_name, unit_price, by_weight FROM items WHERE id=" + id + ";";
-            ResultSet result = stmt.executeQuery(sql);
+            pGetItem.setInt(1, id);
+            ResultSet result = pGetItem.executeQuery();
             result.next();
             return new Item(result.getString("display_name"),
                             result.getDouble("unit_price"),
@@ -63,9 +75,9 @@ public class DatabaseConnection {
 
     public void setQuantity(int id, double quantity) {
         try {
-            Statement stmt = conn.createStatement();
-            String sql = String.format("UPDATE items SET remaining_stock = %.3f WHERE id = %d;", quantity, id);
-            stmt.executeUpdate(sql);
+            pSetQuantity.setDouble(1, quantity);
+            pSetQuantity.setInt(2, id);
+            pSetQuantity.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -75,13 +87,10 @@ public class DatabaseConnection {
 
     public void addItem(Item item) {
         try {
-            Statement stmt = conn.createStatement();
-            String sql = "";
-            sql += "INSERT INTO items (display_name, unit_price, by_weight) VALUES (";
-            sql += "'" + item.name + "', ";
-            sql += item.price.toString() + ", ";
-            sql += (item.byWeight ? "true" : "false") + ");\n";
-            stmt.executeUpdate(sql);
+            pAddItem.setString(1, item.name);
+            pAddItem.setDouble(2, item.price);
+            pAddItem.setBoolean(3, item.byWeight);
+            pAddItem.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -91,9 +100,8 @@ public class DatabaseConnection {
 
     public void deleteItem(int id) {
         try {
-            Statement stmt = conn.createStatement();
-            String sql = String.format("DELETE FROM items WHERE id = %d;", id);
-            stmt.executeUpdate(sql);
+            pDeleteItem.setInt(1, id);
+            pDeleteItem.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -103,9 +111,8 @@ public class DatabaseConnection {
 
     public Receipt getReceipt(int id) {
         try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT transaction_date, total, is_cash, employee_id FROM receipts WHERE id = " + id + ";";
-            ResultSet result = stmt.executeQuery(sql);
+            pGetReceipt.setInt(1, id);
+            ResultSet result = pGetReceipt.executeQuery();
             result.next();
 
             // Make receipt
@@ -115,8 +122,8 @@ public class DatabaseConnection {
                                           result.getBoolean("is_cash"));
 
             // Fill in receipt lines
-            stmt = conn.createStatement();
-            sql = "SELECT item_id, quantity FROM receipt_lines WHERE receipt_id = " + id + ";";
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT item_id, quantity FROM receipt_lines WHERE receipt_id = " + id + ";";
             result = stmt.executeQuery(sql);
             while (result.next()) {
                 receipt.addItem(result.getInt("item_id"), result.getDouble("quantity"));
