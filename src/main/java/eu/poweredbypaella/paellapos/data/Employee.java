@@ -8,4 +8,12 @@ public class Employee {
         this.name = name;
         this.isAdmin = isAdmin;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 }
