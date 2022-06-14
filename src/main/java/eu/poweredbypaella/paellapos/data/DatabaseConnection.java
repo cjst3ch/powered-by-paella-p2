@@ -57,8 +57,8 @@ public class DatabaseConnection {
 
             // Get/add/remove item(s)
             pAddItem = conn.prepareStatement("INSERT INTO items (display_name, unit_price, by_weight) VALUES (?, ?, ?)");
-            pGetItem = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items WHERE id = ?");
-            pGetItems = conn.prepareStatement("SELECT display_name, unit_price, by_weight FROM items");
+            pGetItem = conn.prepareStatement("SELECT display_name, unit_price, by_weight, remaining_stock FROM items WHERE id = ?");
+            pGetItems = conn.prepareStatement("SELECT id, display_name, unit_price, by_weight, remaining_stock FROM items");
             pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?");
 
             // Update quantity of an item
@@ -152,18 +152,22 @@ public class DatabaseConnection {
         pGetItem.setInt(1, id);
         ResultSet result = pGetItem.executeQuery();
         result.next();
-        return new Item(result.getString("display_name"),
+        return new Item(id,
+                result.getString("display_name"),
                 result.getDouble("unit_price"),
-                result.getBoolean("by_weight"));
+                result.getBoolean("by_weight"),
+                result.getDouble("remaining_stock"));
     }
 
     public List<Item> getItems() throws SQLException {
         List<Item> items = new ArrayList<>();
         ResultSet result = pGetItems.executeQuery();
         while (result.next()) {
-            items.add(new Item(result.getString("display_name"),
+            items.add(new Item(result.getInt("id"),
+                               result.getString("display_name"),
                                result.getDouble("unit_price"),
-                               result.getBoolean("by_weight")));
+                               result.getBoolean("by_weight"),
+                               result.getDouble("remaining_stock")));
         }
         return items;
     }
@@ -175,7 +179,7 @@ public class DatabaseConnection {
 
     public double getQuantity(int id) throws SQLException {
         pGetQuantity.setInt(1, id);
-        ResultSet result = pGetReceipt.executeQuery();
+        ResultSet result = pGetQuantity.executeQuery();
         result.next();
         return result.getDouble("remaining_stock");
     }
@@ -209,6 +213,9 @@ public class DatabaseConnection {
 
     public int addReceipt(Receipt receipt) throws SQLException {
         int receiptID = getNextReceiptID();
+        double totalItemStock;
+
+        System.out.println(String.format("Adding receipt ID %d", receiptID));
 
         // Fill out id, transaction_date, total, is_cash, employee_id
         pAddReceipt.setInt(1, receiptID);
@@ -287,7 +294,7 @@ public class DatabaseConnection {
 
     public void addEmployee(Employee employee) throws SQLException {
         pAddEmployee.setString(1, employee.name);
-        pAddEmployee.setBoolean(1, employee.isAdmin);
+        pAddEmployee.setBoolean(2, employee.isAdmin);
         pAddEmployee.executeUpdate();
     }
 

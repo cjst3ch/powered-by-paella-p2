@@ -25,6 +25,18 @@ public class Order {
         }
     }
 
+    public Timestamp getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public boolean isReceived() {
+        return received;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
     public Iterable<Integer> getItems() {
         return items.keySet();
     }

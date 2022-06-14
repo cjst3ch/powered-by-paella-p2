@@ -1,6 +1,7 @@
 package eu.poweredbypaella.paellapos.data;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashMap;
 
 public class Receipt {
@@ -9,6 +10,10 @@ public class Receipt {
     public HashMap<Integer, Double> items;
     public int employeeID;
     public boolean isCash;
+
+    public Receipt() {
+        this(Timestamp.from(Instant.now()), 0, 1, false);
+    }
 
     public Receipt(Timestamp transactionDate, int employeeID, boolean isCash) {
         this(transactionDate, 0, employeeID, isCash);
@@ -29,6 +34,22 @@ public class Receipt {
         } else {
             items.put(id, quantity);
         }
+    }
+
+    public Timestamp getTransactionDate() {
+        return transactionDate;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public Integer getEmployeeID() {
+        return employeeID;
+    }
+
+    public boolean isCash() {
+        return isCash;
     }
 
     // Allows for looping over items ("lines") in receipt
