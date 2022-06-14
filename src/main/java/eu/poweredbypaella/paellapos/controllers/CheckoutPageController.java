@@ -98,12 +98,16 @@ public class CheckoutPageController implements Initializable {
         // Get requested item ID
         int itemID = Integer.parseInt(itemPurchased.getText());
         double quantity = Double.parseDouble(purchaseQuantity.getText());
-        if (db.getQuantity(itemID) >= quantity) {
+        double currentToBuy = 0.0;
+        if (currentReceipt.items.containsKey(itemID)) {
+            currentToBuy = currentReceipt.items.get(itemID);
+        }
+        if (db.getQuantity(itemID) >= quantity + currentToBuy) {
             currentReceipt.addItem(itemID, quantity);
             currentReceipt.total = db.calcTotal(currentReceipt);
             renderReceipt(currentReceipt);
         } else {
-            purchaseQuantity.setText(String.format("%.3f", db.getQuantity(itemID)));
+            purchaseQuantity.setText(String.format("%.3f", db.getQuantity(itemID) - currentToBuy));
         }
     }
 
@@ -150,7 +154,8 @@ public class CheckoutPageController implements Initializable {
     }
 
     @FXML
-    public void onBackClick() {}
+    public void onBackClick() {
+    }
 
     @FXML
     public void onLogoutClick() {
