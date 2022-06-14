@@ -23,7 +23,7 @@ public class InventoryManagementController implements Initializable {
     public AnchorPane root;
     public PresentationStackController parent;
 
-    private DatabaseConnection db;
+    public DatabaseConnection db;
 
     @FXML
     public TableView<Item> invTable;

@@ -24,7 +24,7 @@ public class ReceiptsController implements Initializable {
 
     @FXML
     public Label employeeNameLabel;
-    private DatabaseConnection db;
+    public DatabaseConnection db;
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = new DatabaseConnection();

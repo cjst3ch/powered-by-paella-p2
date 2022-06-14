@@ -22,8 +22,6 @@ public class OrderPlacementsController {
     public AnchorPane root;
     public PresentationStackController parent;
 
-    private DatabaseConnection db;
-
     @FXML
     private Label welcomeText;
 

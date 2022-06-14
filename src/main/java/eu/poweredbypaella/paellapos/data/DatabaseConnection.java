@@ -102,6 +102,10 @@ public class DatabaseConnection {
         }
     }
 
+    public void shutdown() throws SQLException {
+        conn.close();
+    }
+
     private int getNextItemID() throws SQLException {
         ResultSet result = pGetNextItemID.executeQuery();
         if (result.next()) {

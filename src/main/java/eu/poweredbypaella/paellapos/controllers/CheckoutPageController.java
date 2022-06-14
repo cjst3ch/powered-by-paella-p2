@@ -1,15 +1,20 @@
 package eu.poweredbypaella.paellapos.controllers;
 
+import eu.poweredbypaella.paellapos.HelloApplication;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +66,7 @@ public class CheckoutPageController implements Initializable {
     @FXML
     public TextField purchaseTotal;
 
-    private DatabaseConnection db;
+    public DatabaseConnection db;
 
     private int employeeID = 2;
 

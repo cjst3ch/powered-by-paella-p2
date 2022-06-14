@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManagerMenuController implements Initializable {
-    private DatabaseConnection db;
+    public DatabaseConnection db;
     private int employeeID = 2;
 
     @FXML

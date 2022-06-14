@@ -28,8 +28,6 @@ public class OrderListController {
     @FXML
     public TextField purchaseTotal;
 
-    private DatabaseConnection db;
-
     @FXML
     private Label welcomeText;
 

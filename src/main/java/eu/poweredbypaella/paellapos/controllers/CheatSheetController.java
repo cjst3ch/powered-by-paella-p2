@@ -28,7 +28,7 @@ public class CheatSheetController implements Initializable {
     @FXML
     public TextField purchaseQuantity;
 
-    private DatabaseConnection db;
+    public DatabaseConnection db;
 
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {

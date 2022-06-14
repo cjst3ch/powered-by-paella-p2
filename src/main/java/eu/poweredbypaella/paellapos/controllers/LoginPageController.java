@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class LoginPageController implements Initializable {
 
-    private DatabaseConnection db;
+    public DatabaseConnection db;
     private int employeeID = 2;
 
     @FXML
