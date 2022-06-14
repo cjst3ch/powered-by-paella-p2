@@ -1,17 +1,14 @@
 package eu.poweredbypaella.paellapos.controllers;
 
-import eu.poweredbypaella.paellapos.HelloApplication;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Receipt;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,12 +16,19 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class CheckoutController implements Initializable {
-    // Employee name label
+public class CheckoutPageController implements Initializable {
+
+    // ROOT
+    public PresentationStackController parent;
+
+    // Back button
+    @FXML
+    protected Button backButton;
+
+    // Employee name title in top of page
     @FXML
     public Label employeeNameLabel;
 
@@ -58,32 +62,17 @@ public class CheckoutController implements Initializable {
 
     private int employeeID = 2;
 
-    @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        db = new DatabaseConnection();
-
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
-        // Start cheat sheet window
-        Parent root;
-        try {
-            root = FXMLLoader.load(HelloApplication.class.getResource("cheat_sheet.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Item Cheat Sheet");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.setAlwaysOnTop(true);
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Local receipt/isCash
     private Receipt currentReceipt = new Receipt();
     private boolean isCash = false;
 
+    @FXML
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        db = new DatabaseConnection();
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    }
     private void renderReceipt(Receipt receipt) {
         itemTable.getItems().clear();
         try {
@@ -163,4 +152,15 @@ public class CheckoutController implements Initializable {
     public void onLogoutClick() {
         System.exit(0);
     }
+
+
+
+    public void switchToManagerMenu(ActionEvent event) throws IOException {
+        parent.openManagerMenuPage();
+    }
+
+    public void switchToLoginPage(ActionEvent event) throws IOException {
+        parent.openLoginPage();
+    }
+
 }
