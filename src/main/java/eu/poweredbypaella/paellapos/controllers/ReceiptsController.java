@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +18,10 @@ import java.util.ResourceBundle;
 
 public class ReceiptsController {
     @FXML
+    public AnchorPane root;
+    public PresentationStackController parent;
+
+    @FXML
     public Label employeeNameLabel;
     private DatabaseConnection db;
     @FXML
@@ -24,59 +29,33 @@ public class ReceiptsController {
         db = new DatabaseConnection();
     }
     private int employeeID = 2;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
-        root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
 
-        // Setup login page
-        employeeNameLabel.setText(db.getEmployee(employeeID).name);
-    }
+
     public void switchToManagerMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        parent.openManagerMenuPage();
     }
-    public void switchToInventoryManagement(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("inventory_management.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+
+    public void switchToCheckoutPage(ActionEvent event) throws IOException, SQLException {
+        parent.openCheckoutPage();
     }
-    public void switchToReceipts(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("receipts.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void switchToOrderPlacement(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("order_placements.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void switchToOrderList(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("order_list.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+
     public void switchToLoginPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login_page.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        parent.openLoginPage();
+    }
+
+    public void switchToInventoryManagement(ActionEvent event) throws IOException {
+        parent.openInventoryManagementPage();
+    }
+
+    public void switchToOrderList(ActionEvent event) throws IOException {
+        parent.openOrderListPage();
+    }
+
+    public void switchToOrderPlacement(ActionEvent event) throws IOException {
+        parent.openOrderPlacementsPage();
+    }
+
+    public void switchToReceipts(ActionEvent event) throws IOException {
+        parent.openReceiptsPage();
     }
 }
