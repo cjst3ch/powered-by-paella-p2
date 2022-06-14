@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseConnection {
-
-    Connection conn;
-
+d
     private final String URL = "jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315950_3db";
     private final String USERNAME = "csce315950_3user";
     private final String PASSWORD = "team3three";
+
+    Connection conn;
 
     // Get/add/remove item(s)
     private PreparedStatement pAddItem;
@@ -198,7 +198,7 @@ public class DatabaseConnection {
         return receipt;
     }
 
-    public void addReceipt(Receipt receipt) throws SQLException {
+    public int addReceipt(Receipt receipt) throws SQLException {
         int receiptID = getNextReceiptID();
 
         // Fill out id, transaction_date, total, is_cash, employee_id
@@ -223,6 +223,9 @@ public class DatabaseConnection {
 
             pAddReceiptLine.executeUpdate();
         }
+
+        // Return new receipt ID
+        return receiptID;
     }
 
     public Order getOrder(int id) throws SQLException {
@@ -245,7 +248,7 @@ public class DatabaseConnection {
         return order;
     }
 
-    public void addOrder(Order order) throws SQLException {
+    public int addOrder(Order order) throws SQLException {
         int orderID = getNextOrderID();
 
         // Fill in id, cost, delivery_date, received
@@ -269,6 +272,8 @@ public class DatabaseConnection {
             pAddOrderLine.executeUpdate();
         }
 
+        // Return new order ID
+        return orderID;
     }
 
     public void addEmployee(Employee employee) throws SQLException {
