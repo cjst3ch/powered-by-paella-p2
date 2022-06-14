@@ -99,8 +99,8 @@ public class HelloController implements Initializable {
     private Scene scene;
     private Parent root;
 
-    public void onLoginClick(ActionEvent event) throws IOException {
-        if () {
+    public void onLoginClick(ActionEvent event) throws IOException, SQLException {
+        if (db.getEmployee(employeeID).isAdmin) {
             root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
         } else {
             root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
@@ -121,10 +121,11 @@ public class HelloController implements Initializable {
 
     public void switchToCheckoutPage(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
   
     @FXML
     public void onLogoutClick() {
