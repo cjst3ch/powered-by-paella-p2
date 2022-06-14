@@ -46,6 +46,10 @@ public class PresentationStackController implements Initializable {
     @FXML
     public ReceiptsController receiptsController;
 
+    // DATA
+    public int employeeID = 2;
+
+
     // Page switching
     public void openCheckoutPage() {
         checkoutPage.toFront();

@@ -17,13 +17,15 @@ public class DatabaseConnection {
     private PreparedStatement pAddItem;
     private PreparedStatement pGetItem;
     private PreparedStatement pGetItems;
+    private PreparedStatement pUpdateItem;
     private PreparedStatement pDeleteItem;
 
     // Get/set quantity of an item
     private PreparedStatement pGetQuantity;
     private PreparedStatement pSetQuantity;
 
-    // Get next receipt/order ID
+    // Get next item/receipt/order ID
+    private PreparedStatement pGetNextItemID;
     private PreparedStatement pGetNextReceiptID;
     private PreparedStatement pGetNextOrderID;
 
@@ -56,16 +58,18 @@ public class DatabaseConnection {
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
             // Get/add/remove item(s)
-            pAddItem = conn.prepareStatement("INSERT INTO items (display_name, unit_price, by_weight) VALUES (?, ?, ?)");
+            pAddItem = conn.prepareStatement("INSERT INTO items (id, display_name, unit_price, by_weight) VALUES (?, ?, ?, ?)");
             pGetItem = conn.prepareStatement("SELECT display_name, unit_price, by_weight, remaining_stock FROM items WHERE id = ?");
             pGetItems = conn.prepareStatement("SELECT id, display_name, unit_price, by_weight, remaining_stock FROM items");
+            pUpdateItem = conn.prepareStatement("UPDATE items SET display_name = ?, unit_price = ?, by_weight = ? WHERE id = ?");
             pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?");
 
             // Update quantity of an item
             pGetQuantity = conn.prepareStatement("SELECT remaining_stock FROM items WHERE id = ?");
             pSetQuantity = conn.prepareStatement("UPDATE items SET remaining_stock = ? WHERE id = ?");
 
-            // Get next receipt/order ID
+            // Get next item/receipt/order ID
+            pGetNextItemID = conn.prepareStatement("SELECT id FROM items order by id desc limit 1");
             pGetNextReceiptID = conn.prepareStatement("SELECT id FROM receipts order by id desc limit 1");
             pGetNextOrderID = conn.prepareStatement("SELECT id FROM orders order by id desc limit 1");
 
@@ -96,6 +100,17 @@ public class DatabaseConnection {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
+        }
+    }
+
+    private int getNextItemID() throws SQLException {
+        ResultSet result = pGetNextItemID.executeQuery();
+        if (result.next()) {
+            // Get ID from query, increment
+            return result.getInt("id") + 1;
+        } else {
+            // No receipts in the list, next ID is 1
+            return 1;
         }
     }
 
@@ -141,11 +156,14 @@ public class DatabaseConnection {
         return total;
     }
 
-    public void addItem(Item item) throws SQLException {
-        pAddItem.setString(1, item.name);
-        pAddItem.setDouble(2, item.price);
-        pAddItem.setBoolean(3, item.byWeight);
+    public int addItem(Item item) throws SQLException {
+        int nextID = getNextItemID();
+        pAddItem.setInt(1, nextID);
+        pAddItem.setString(2, item.name);
+        pAddItem.setDouble(3, item.price);
+        pAddItem.setBoolean(4, item.byWeight);
         pAddItem.executeUpdate();
+        return nextID;
     }
 
     public Item getItem(int id) throws SQLException {
@@ -170,6 +188,14 @@ public class DatabaseConnection {
                                result.getDouble("remaining_stock")));
         }
         return items;
+    }
+
+    public void updateItem(Item newItem) throws SQLException {
+        pUpdateItem.setString(1, newItem.name);
+        pUpdateItem.setDouble(2, newItem.price);
+        pUpdateItem.setBoolean(3, newItem.byWeight);
+        pUpdateItem.setInt(4, newItem.id);
+        pUpdateItem.executeUpdate();
     }
 
     public void deleteItem(int id) throws SQLException {
