@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -16,64 +17,27 @@ public class HelloController {
     private Label welcomeText;
 
     @FXML
-    protected void onLoginClick() {
-        welcomeText.setText("Welcome to PaellaPOS!");
-    }
+    protected Button backButton;
 
 
     // NAVIGATION MENU
-    @FXML
-    protected void onInventoryMgmtClick() {}
-
-    @FXML
-    protected void onReceiptsClick() {}
-
-    @FXML
-    protected void onOrderPlacementsClick() {}
-
-    @FXML
-    protected void onOrderListClick() {}
-
-    @FXML
-    protected void onLogoutClick() {}
-
-    @FXML
-    protected void onBackClick() {}
-    @FXML
-    protected void onCheckoutPageClick() {}
 
 
-    // INVENTORY MANAGEMENT
-
-
-    @FXML
-    protected void onUpdateInventoryClick() {}
-
-
-    // CHECKOUT PAGE
-
-
-    @FXML
-    protected void onCashPaymentClick() {}
-
-    @FXML
-    protected void onCardPaymentClick() {}
-
-    @FXML
-    protected void onCheckoutReadyClick() {}
-
-
-    // ORDER PLACEMENTS
-
-
-    @FXML
-    protected void onPlaceOrderClick() {}
-
-
-    //  NAVIGATION SCENE SWITCHING
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    public void onLoginClick(ActionEvent event) throws IOException {
+        if () {
+            root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
+        } else {
+            root = FXMLLoader.load(getClass().getResource("checkout_page.fxml"));
+        }
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("manager_menu.fxml"));
@@ -130,4 +94,32 @@ public class HelloController {
         stage.setScene(scene);
         stage.show();
     }
+
+
+    // INVENTORY MANAGEMENT
+
+
+    @FXML
+    protected void onUpdateInventoryClick() {}
+
+
+    // CHECKOUT PAGE
+
+
+    @FXML
+    protected void onCashPaymentClick() {}
+
+    @FXML
+    protected void onCardPaymentClick() {}
+
+    @FXML
+    protected void onCheckoutReadyClick() {}
+
+
+    // ORDER PLACEMENTS
+
+
+    @FXML
+    protected void onPlaceOrderClick() {}
+
 }
