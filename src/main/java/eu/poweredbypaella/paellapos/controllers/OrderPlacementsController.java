@@ -38,12 +38,6 @@ public class OrderPlacementsController {
     @FXML
     public TextField purchaseQuantity;
 
-    // Card/cash buttons
-    @FXML
-    public Button cardButton;
-    @FXML
-    public Button cashButton;
-
     // Total display
     @FXML
     public TextField purchaseTotal;
