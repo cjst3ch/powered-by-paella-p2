@@ -44,6 +44,8 @@ public class HelloController {
 
     // CHECKOUT PAGE
 
+    @FXML
+    protected void onEnterClick() {}
 
     @FXML
     protected void onCashPaymentClick() {}
