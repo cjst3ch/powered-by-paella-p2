@@ -119,7 +119,7 @@ public class DatabaseConnection {
         }
     }
 
-    public double calcTotal(Receipt receipt) {
+    public double calcTotal(Receipt receipt) throws SQLException {
         double total = 0;
 
         for (Integer itemID : receipt.getItems()) {
@@ -129,7 +129,7 @@ public class DatabaseConnection {
         return total;
     }
 
-    public double calcTotal(Order order) {
+    public double calcTotal(Order order) throws SQLException {
         double total = 0;
 
         for (Integer itemID : order.getItems()) {
@@ -139,248 +139,164 @@ public class DatabaseConnection {
         return total;
     }
 
-    public void addItem(Item item) {
-        try {
-            pAddItem.setString(1, item.name);
-            pAddItem.setDouble(2, item.price);
-            pAddItem.setBoolean(3, item.byWeight);
-            pAddItem.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+    public void addItem(Item item) throws SQLException {
+        pAddItem.setString(1, item.name);
+        pAddItem.setDouble(2, item.price);
+        pAddItem.setBoolean(3, item.byWeight);
+        pAddItem.executeUpdate();
     }
 
-    public Item getItem(int id) {
-        try {
-            pGetItem.setInt(1, id);
-            ResultSet result = pGetItem.executeQuery();
-            result.next();
-            return new Item(result.getString("display_name"),
-                    result.getDouble("unit_price"),
-                    result.getBoolean("by_weight"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return null;
-        }
+    public Item getItem(int id) throws SQLException {
+        pGetItem.setInt(1, id);
+        ResultSet result = pGetItem.executeQuery();
+        result.next();
+        return new Item(result.getString("display_name"),
+                result.getDouble("unit_price"),
+                result.getBoolean("by_weight"));
     }
 
-    public List<Item> getItems() {
+    public List<Item> getItems() throws SQLException {
         List<Item> items = new ArrayList<>();
-        try {
-            ResultSet result = pGetItems.executeQuery();
-            while (result.next()) {
-                items.add(new Item(result.getString("display_name"),
-                                   result.getDouble("unit_price"),
-                                   result.getBoolean("by_weight")));
-            }
-            return items;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return items;
+        ResultSet result = pGetItems.executeQuery();
+        while (result.next()) {
+            items.add(new Item(result.getString("display_name"),
+                               result.getDouble("unit_price"),
+                               result.getBoolean("by_weight")));
+        }
+        return items;
+    }
+
+    public void deleteItem(int id) throws SQLException {
+        pDeleteItem.setInt(1, id);
+        pDeleteItem.executeUpdate();
+    }
+
+    public void setQuantity(int id, double quantity) throws SQLException {
+        pSetQuantity.setDouble(1, quantity);
+        pSetQuantity.setInt(2, id);
+        pSetQuantity.executeUpdate();
+    }
+
+    public Receipt getReceipt(int id) throws SQLException {
+        pGetReceipt.setInt(1, id);
+        ResultSet result = pGetReceipt.executeQuery();
+        result.next();
+
+        // Make receipt
+        Receipt receipt = new Receipt(result.getTimestamp("transaction_date"),
+                                      result.getDouble("total"),
+                                      result.getInt("employee_id"),
+                                      result.getBoolean("is_cash"));
+
+        // Fill in receipt lines
+        pGetReceiptLines.setInt(1, id);
+        result = pGetReceiptLines.executeQuery();
+        while (result.next()) {
+            receipt.addItem(result.getInt("item_id"), result.getDouble("quantity"));
+        }
+
+        return receipt;
+    }
+
+    public void addReceipt(Receipt receipt) throws SQLException {
+        int receiptID = getNextReceiptID();
+
+        // Fill out id, transaction_date, total, is_cash, employee_id
+        pAddReceipt.setInt(1, receiptID);
+        pAddReceipt.setTimestamp(2, receipt.transactionDate);
+        pAddReceipt.setDouble(3, receipt.total);
+        pAddReceipt.setBoolean(4, receipt.isCash);
+        pAddReceipt.setInt(5, receipt.employeeID);
+
+        // Insert receipt into database
+        pAddReceipt.executeUpdate();
+
+        // add in the receipt lines
+        for (Integer itemID : receipt.getItems()) {
+            // Get item quantity
+            double quantity = receipt.items.get(itemID);
+
+            // Fill out receipt_id, item_id, quantity
+            pAddReceiptLine.setInt(1, receiptID);
+            pAddReceiptLine.setInt(2, itemID);
+            pAddReceiptLine.setDouble(3, quantity);
+
+            pAddReceiptLine.executeUpdate();
         }
     }
 
-    public void deleteItem(int id) {
-        try {
-            pDeleteItem.setInt(1, id);
-            pDeleteItem.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+    public Order getOrder(int id) throws SQLException {
+        pGetOrder.setInt(1, id);
+        ResultSet result = pGetOrder.executeQuery();
+        result.next();
+
+        // Make order
+        Order order = new Order(result.getDouble("cost"),
+                result.getTimestamp("delivery_date"),
+                result.getBoolean("received"));
+
+        // Fill in order lines
+        pGetOrderLines.setInt(1, id);
+        result = pGetOrderLines.executeQuery();
+        while (result.next()) {
+            order.addItem(result.getInt("item_id"), result.getDouble("quantity"));
         }
+
+        return order;
     }
 
-    public void setQuantity(int id, double quantity) {
-        try {
-            pSetQuantity.setDouble(1, quantity);
-            pSetQuantity.setInt(2, id);
-            pSetQuantity.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+    public void addOrder(Order order) throws SQLException {
+        int orderID = getNextOrderID();
+
+        // Fill in id, cost, delivery_date, received
+        pAddOrder.setInt(1, orderID);
+        pAddOrder.setDouble(2, order.cost);
+        pAddOrder.setTimestamp(3, order.deliveryDate);
+        pAddOrder.setBoolean(4, order.received);
+
+        pAddOrder.executeUpdate();
+
+        // add in the receipt lines
+        for (Integer itemID : order.getItems()) {
+            // Get quantity
+            double quantity = order.items.get(itemID);
+
+            // Fill out order_id, item_id, quantity
+            pAddOrderLine.setInt(1, orderID);
+            pAddOrderLine.setInt(2, itemID);
+            pAddOrderLine.setDouble(3, quantity);
+
+            pAddOrderLine.executeUpdate();
         }
+
     }
 
-    public Receipt getReceipt(int id) {
-        try {
-            pGetReceipt.setInt(1, id);
-            ResultSet result = pGetReceipt.executeQuery();
-            result.next();
-
-            // Make receipt
-            Receipt receipt = new Receipt(result.getTimestamp("transaction_date"),
-                                          result.getDouble("total"),
-                                          result.getInt("employee_id"),
-                                          result.getBoolean("is_cash"));
-
-            // Fill in receipt lines
-            pGetReceiptLines.setInt(1, id);
-            result = pGetReceiptLines.executeQuery();
-            while (result.next()) {
-                receipt.addItem(result.getInt("item_id"), result.getDouble("quantity"));
-            }
-
-            return receipt;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return null;
-        }
+    public void addEmployee(Employee employee) throws SQLException {
+        pAddEmployee.setString(1, employee.name);
+        pAddEmployee.setBoolean(1, employee.isAdmin);
+        pAddEmployee.executeUpdate();
     }
 
-    public void addReceipt(Receipt receipt) {
-        try {
-            int receiptID = getNextReceiptID();
-
-            // Fill out id, transaction_date, total, is_cash, employee_id
-            pAddReceipt.setInt(1, receiptID);
-            pAddReceipt.setTimestamp(2, receipt.transactionDate);
-            pAddReceipt.setDouble(3, receipt.total);
-            pAddReceipt.setBoolean(4, receipt.isCash);
-            pAddReceipt.setInt(5, receipt.employeeID);
-
-            // Insert receipt into database
-            pAddReceipt.executeUpdate();
-
-            // add in the receipt lines
-            for (Integer itemID : receipt.getItems()) {
-                // Get item quantity
-                double quantity = receipt.items.get(itemID);
-
-                // Fill out receipt_id, item_id, quantity
-                pAddReceiptLine.setInt(1, receiptID);
-                pAddReceiptLine.setInt(2, itemID);
-                pAddReceiptLine.setDouble(3, quantity);
-
-                pAddReceiptLine.executeUpdate();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+    public Employee getEmployee(int id) throws SQLException {
+        pGetEmployee.setInt(1, id);
+        ResultSet result = pGetEmployee.executeQuery();
+        result.next();
+        return new Employee(result.getString("employee_name"),
+                result.getBoolean("is_admin"));
     }
 
-    public Order getOrder(int id) {
-        try {
-            pGetOrder.setInt(1, id);
-            ResultSet result = pGetOrder.executeQuery();
-            result.next();
-
-            // Make order
-            Order order = new Order(result.getDouble("cost"),
-                    result.getTimestamp("delivery_date"),
-                    result.getBoolean("received"));
-
-            // Fill in order lines
-            pGetOrderLines.setInt(1, id);
-            result = pGetOrderLines.executeQuery();
-            while (result.next()) {
-                order.addItem(result.getInt("item_id"), result.getDouble("quantity"));
-            }
-
-            return order;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return null;
-        }
-    }
-
-    public void addOrder(Order order) {
-        try {
-            int orderID = getNextOrderID();
-
-            // Fill in id, cost, delivery_date, received
-            pAddOrder.setInt(1, orderID);
-            pAddOrder.setDouble(2, order.cost);
-            pAddOrder.setTimestamp(3, order.deliveryDate);
-            pAddOrder.setBoolean(4, order.received);
-
-            pAddOrder.executeUpdate();
-
-            // add in the receipt lines
-            for (Integer itemID : order.getItems()) {
-                // Get quantity
-                double quantity = order.items.get(itemID);
-
-                // Fill out order_id, item_id, quantity
-                pAddOrderLine.setInt(1, orderID);
-                pAddOrderLine.setInt(2, itemID);
-                pAddOrderLine.setDouble(3, quantity);
-
-                pAddOrderLine.executeUpdate();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-    }
-
-    public void addEmployee(Employee employee) {
-        try {
-            pAddEmployee.setString(1, employee.name);
-            pAddEmployee.setBoolean(1, employee.isAdmin);
-            pAddEmployee.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
-    }
-
-    public Employee getEmployee(int id) {
-        try {
-            pGetEmployee.setInt(1, id);
-            ResultSet result = pGetEmployee.executeQuery();
-            result.next();
-            return new Employee(result.getString("employee_name"),
-                    result.getBoolean("is_admin"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-            return null;
-        }
-    }
-
-    public List<Employee> getEmployees(int id) {
+    public List<Employee> getEmployees(int id) throws SQLException {
         List<Employee> employees = new ArrayList<>();
-        try {
-            ResultSet result = pGetEmployees.executeQuery();
-            while (result.next()) {
-                employees.add(new Employee(result.getString("name"),
-                                           result.getBoolean("is_admin")));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
+        ResultSet result = pGetEmployees.executeQuery();
+        while (result.next()) {
+            employees.add(new Employee(result.getString("name"),
+                                       result.getBoolean("is_admin")));
         }
         return employees;
     }
 
-    public void deleteEmployee(int id) {
-        try {
-            pDeleteEmployee.setInt(1, id);
-            pDeleteEmployee.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+    public void deleteEmployee(int id) throws SQLException {
+        pDeleteEmployee.setInt(1, id);
+        pDeleteEmployee.executeUpdate();
     }
 }
