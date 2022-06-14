@@ -12,6 +12,7 @@ public class HelloController {
         welcomeText.setText("Welcome to PaellaPOS!");
     }
 
+    // NAVAGATION MENU
     @FXML
     protected void onCheckoutPageClick() {}
 
