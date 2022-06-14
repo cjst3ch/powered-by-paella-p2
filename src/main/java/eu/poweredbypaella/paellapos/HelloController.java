@@ -12,6 +12,7 @@ public class HelloController {
         welcomeText.setText("Welcome to PaellaPOS!");
     }
 
+
     // NAVAGATION MENU
     @FXML
     protected void onInventoryMgmtClick() {}
@@ -33,12 +34,17 @@ public class HelloController {
     @FXML
     protected void onCheckoutPageClick() {}
 
+
     // INVENTORY MANAGEMENT
+
 
     @FXML
     protected void onUpdateInventoryClick() {}
 
+
     // CHECKOUT PAGE
+
+
     @FXML
     protected void onCashPaymentClick() {}
 
@@ -48,7 +54,10 @@ public class HelloController {
     @FXML
     protected void onCheckoutReadyClick() {}
 
+
     // ORDER PLACEMENTS
+
+
     @FXML
     protected void onPlaceOrderClick() {}
 
