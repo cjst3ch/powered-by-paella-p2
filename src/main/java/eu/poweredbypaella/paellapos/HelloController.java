@@ -13,7 +13,7 @@ public class HelloController {
     }
 
 
-    // NAVAGATION MENU
+    // NAVIGATION MENU
     @FXML
     protected void onInventoryMgmtClick() {}
 
