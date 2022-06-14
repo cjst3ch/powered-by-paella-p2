@@ -48,7 +48,9 @@ public class HelloController {
     @FXML
     protected void onCheckoutReadyClick() {}
 
-    // ORDER LIST
+    // ORDER PLACEMENTS
+    @FXML
+    protected void onPlaceOrderClick() {}
 
 
 }
