@@ -22,9 +22,9 @@ public class DatabaseConnection {
     // Update quantity of an item
     private PreparedStatement pSetQuantity;
 
-    // Get next order/receipt ID
-    private PreparedStatement pGetNextOrderID;
+    // Get next receipt/order ID
     private PreparedStatement pGetNextReceiptID;
+    private PreparedStatement pGetNextOrderID;
 
     // Get receipt/receipt lines
     private PreparedStatement pGetReceipt;
@@ -63,9 +63,9 @@ public class DatabaseConnection {
             // Update quantity of an item
             pDeleteItem = conn.prepareStatement("DELETE FROM items WHERE id = ?");
 
-            // Get next order/receipt ID
-            pGetNextOrderID = conn.prepareStatement("SELECT id FROM orders order by id desc limit 1");
+            // Get next receipt/order ID
             pGetNextReceiptID = conn.prepareStatement("SELECT id FROM receipts order by id desc limit 1");
+            pGetNextOrderID = conn.prepareStatement("SELECT id FROM orders order by id desc limit 1");
 
             // Get receipt/receipt lines
             pGetReceipt = conn.prepareStatement( "SELECT transaction_date, total, is_cash, employee_id FROM receipts WHERE id = ?");
@@ -95,6 +95,48 @@ public class DatabaseConnection {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
+    }
+
+    private int getNextReceiptID() throws SQLException {
+        ResultSet result = pGetNextReceiptID.executeQuery();
+        if (result.next()) {
+            // Get ID from query, increment
+            return result.getInt("id") + 1;
+        } else {
+            // No receipts in the list, next ID is 1
+            return 1;
+        }
+    }
+
+    private int getNextOrderID() throws SQLException {
+        ResultSet result = pGetNextOrderID.executeQuery();
+        if (result.next()) {
+            // Get ID from query, increment
+            return result.getInt("id") + 1;
+        } else {
+            // No orders in the list, next ID is 1
+            return 1;
+        }
+    }
+
+    public double calcTotal(Receipt receipt) {
+        double total = 0;
+
+        for (Integer itemID : receipt.getItems()) {
+            total += getItem(itemID).price * receipt.items.get(itemID);
+        }
+
+        return total;
+    }
+
+    public double calcTotal(Order order) {
+        double total = 0;
+
+        for (Integer itemID : order.getItems()) {
+            total += getItem(itemID).price * order.items.get(itemID);
+        }
+
+        return total;
     }
 
     public void addItem(Item item) {
@@ -198,10 +240,7 @@ public class DatabaseConnection {
 
     public void addReceipt(Receipt receipt) {
         try {
-            // Get next receipt ID
-            ResultSet result = pGetNextReceiptID.executeQuery();
-            result.next();
-            int receiptID = result.getInt("id") + 1;
+            int receiptID = getNextReceiptID();
 
             // Fill out id, transaction_date, total, is_cash, employee_id
             pAddReceipt.setInt(1, receiptID);
@@ -262,9 +301,7 @@ public class DatabaseConnection {
 
     public void addOrder(Order order) {
         try {
-            ResultSet result = pGetNextOrderID.executeQuery();
-            result.next();
-            int orderID = result.getInt("id") + 1;
+            int orderID = getNextOrderID();
 
             // Fill in id, cost, delivery_date, received
             pAddOrder.setInt(1, orderID);
@@ -291,17 +328,6 @@ public class DatabaseConnection {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-    }
-
-    // TODO: move elsewhere(?)
-    public double calcReceiptTotal(Receipt receipt) {
-        double total = 0;
-
-        for (Integer itemID : receipt.getItems()) {
-            total += getItem(itemID).price * receipt.items.get(itemID);
-        }
-
-        return total;
     }
 
     public void addEmployee(Employee employee) {
