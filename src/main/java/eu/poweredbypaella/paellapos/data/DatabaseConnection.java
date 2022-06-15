@@ -281,6 +281,12 @@ public class DatabaseConnection {
         pDeleteItem.executeUpdate();
     }
 
+    /**
+     * Gets the item -quantity from the database.
+     *
+     * @param id The id of the item to get the quantity of
+     * @throws SQLException if the SQL query failed
+     */
     public double getQuantity(int id) throws SQLException {
         pGetQuantity.setInt(1, id);
         ResultSet result = pGetQuantity.executeQuery();
@@ -288,12 +294,25 @@ public class DatabaseConnection {
         return result.getDouble("remaining_stock");
     }
 
+    /**
+     * Sets the item -quantity from the database.
+     *
+     * @param id The id of the item to set the quantity of
+     * @throws SQLException if the SQL query failed
+     */
     public void setQuantity(int id, double quantity) throws SQLException {
         pSetQuantity.setDouble(1, quantity);
         pSetQuantity.setInt(2, id);
         pSetQuantity.executeUpdate();
     }
 
+    /**
+     * Gets a receipt from the database.
+     *
+     * @param id The id of the receipt to get
+     * @return The receipt retrieved from the database
+     * @throws SQLException if the SQL query failed (or if no item found with that ID)
+     */
     public Receipt getReceipt(int id) throws SQLException {
         pGetReceipt.setInt(1, id);
         ResultSet result = pGetReceipt.executeQuery();
@@ -315,6 +334,13 @@ public class DatabaseConnection {
         return receipt;
     }
 
+    /**
+     * Adds a receipt to the database.
+     *
+     * @param receipt The receipt to be added to the database
+     * @return The receipt id of the added receipt in the database
+     * @throws SQLException if the SQL query failed
+     */
     public int addReceipt(Receipt receipt) throws SQLException {
         int receiptID = getNextReceiptID();
 
@@ -347,6 +373,13 @@ public class DatabaseConnection {
         return receiptID;
     }
 
+    /**
+     * Gets an order from the database.
+     *
+     * @param id The id of the order to get from the database.
+     * @return The order from the database.
+     * @throws SQLException if the SQL query failed (or if no item found with that ID)
+     */
     public Order getOrder(int id) throws SQLException {
         pGetOrder.setInt(1, id);
         ResultSet result = pGetOrder.executeQuery();
@@ -367,6 +400,13 @@ public class DatabaseConnection {
         return order;
     }
 
+    /**
+     * Adds an order from the database.
+     *
+     * @param order The order to add to the database.
+     * @return The order id of the added order from the database.
+     * @throws SQLException if the SQL query failed
+     */
     public int addOrder(Order order) throws SQLException {
         int orderID = getNextOrderID();
 
@@ -395,12 +435,25 @@ public class DatabaseConnection {
         return orderID;
     }
 
+    /**
+     * Adds an employee to the database.
+     *
+     * @param employee The employee that needs to be added to the database.
+     * @throws SQLException if the SQL query failed
+     */
     public void addEmployee(Employee employee) throws SQLException {
         pAddEmployee.setString(1, employee.name);
         pAddEmployee.setBoolean(2, employee.isAdmin);
         pAddEmployee.executeUpdate();
     }
 
+    /**
+     * Gets an employee from the database.
+     *
+     * @param id The id of the employee in the database.
+     * @return The employee that was found in the database.
+     * @throws SQLException if the SQL query failed
+     */
     public Employee getEmployee(int id) throws SQLException {
         pGetEmployee.setInt(1, id);
         ResultSet result = pGetEmployee.executeQuery();
@@ -409,6 +462,12 @@ public class DatabaseConnection {
                 result.getBoolean("is_admin"));
     }
 
+    /**
+     * Gets all employees from the database.
+     *
+     * @return All the employees in the database.
+     * @throws SQLException if the SQL query failed
+     */
     public List<Employee> getEmployees() throws SQLException {
         List<Employee> employees = new ArrayList<>();
         ResultSet result = pGetEmployees.executeQuery();
@@ -419,6 +478,12 @@ public class DatabaseConnection {
         return employees;
     }
 
+    /**
+     * Deletes an employee from the database.
+     *
+     * @param id The id of the employee in the database.
+     * @throws SQLException if the SQL query failed
+     */
     public void deleteEmployee(int id) throws SQLException {
         pDeleteEmployee.setInt(1, id);
         pDeleteEmployee.executeUpdate();
