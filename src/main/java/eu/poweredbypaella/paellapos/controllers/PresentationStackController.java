@@ -56,6 +56,9 @@ public class PresentationStackController implements Initializable {
     // DATA
     public int employeeID = 2;
 
+    // CHEAT SHEET REFERENCE
+    public CheatSheetController cheatSheetController;
+
 
     // Page switching
     public void openCheckoutPage() {

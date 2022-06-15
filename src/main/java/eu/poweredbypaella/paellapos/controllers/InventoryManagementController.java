@@ -63,7 +63,7 @@ public class InventoryManagementController implements Initializable {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         try {
             invTable.getItems().clear();
             invTable.getItems().addAll(db.getItems());
@@ -87,6 +87,9 @@ public class InventoryManagementController implements Initializable {
         itemUnitPrice.clear();
         itemQuantity.clear();
         itemByWeight.setSelected(false);
+
+        // Refresh cheat sheet
+        parent.cheatSheetController.refresh();
     }
 
     @FXML
@@ -108,6 +111,9 @@ public class InventoryManagementController implements Initializable {
         itemUnitPrice.clear();
         itemQuantity.clear();
         itemByWeight.setSelected(false);
+
+        // Refresh cheat sheet
+        parent.cheatSheetController.refresh();
     }
 
     @FXML
@@ -123,6 +129,9 @@ public class InventoryManagementController implements Initializable {
         itemUnitPrice.clear();
         itemQuantity.clear();
         itemByWeight.setSelected(false);
+
+        // Refresh cheat sheet
+        parent.cheatSheetController.refresh();
     }
 
     @FXML

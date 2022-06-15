@@ -55,6 +55,8 @@ public class HelloApplication extends Application {
                 }
             });
             stage2.show();
+
+            controller.cheatSheetController = controller2;
         }
         catch (IOException e) {
             e.printStackTrace();
