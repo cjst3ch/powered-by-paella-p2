@@ -53,7 +53,7 @@ public class ManagerMenuController implements Initializable {
     }
 
     public void switchToReportsPage(ActionEvent event) throws IOException {
-        parent.openRe
+        parent.openReportsPage();
     }
 
     public void switchToLoginPage(ActionEvent event) throws IOException {

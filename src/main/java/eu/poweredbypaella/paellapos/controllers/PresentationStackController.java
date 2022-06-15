@@ -37,7 +37,7 @@ public class PresentationStackController implements Initializable {
     @FXML
     public AnchorPane receipts;
     @FXML
-    public AnchorPane
+    public AnchorPane reportsPage;
 
     // PAGES
     @FXML
@@ -91,6 +91,10 @@ public class PresentationStackController implements Initializable {
 
     public void openReceiptsPage() {
         receipts.toFront();
+    }
+
+    public void openReportsPage() {
+        reportsPage.toFront();
     }
 
     @FXML
