@@ -196,7 +196,15 @@ public class OrderListController implements Initializable {
         }
     }
 
-    public void receivedOrder() {
+    public void receivedOrder() throws SQLException {
 
+        Order selected = ordersView.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        selected.received = true;
+
+        db.updateOrder(selected.id, selected);
+
+        refreshOrders();
     }
 }
