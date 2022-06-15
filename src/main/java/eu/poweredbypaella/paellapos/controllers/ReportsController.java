@@ -17,7 +17,6 @@ public class ReportsController implements Initializable {
     private int employeeID = 2;
 
     @FXML
-    public VBox myRoot;
     public PresentationStackController parent;
 
     @FXML
@@ -52,6 +51,10 @@ public class ReportsController implements Initializable {
 
     public void switchToLoginPage(ActionEvent event) throws IOException {
         parent.openLoginPage();
+    }
+
+    public void switchToManagerMenu(ActionEvent event) throws IOException {
+        parent.openManagerMenuPage();
     }
 
 

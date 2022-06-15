@@ -55,7 +55,7 @@ public class PresentationStackController implements Initializable {
     @FXML
     public ReceiptsController receiptsController;
     @FXML
-    public ReportsController reportsController;
+    public ReportsController reportsPageController;
 
     // DATA
     public int employeeID = 2;
@@ -106,6 +106,6 @@ public class PresentationStackController implements Initializable {
         orderListController.parent = this;
         orderPlacementsController.parent = this;
         receiptsController.parent = this;
-        reportsController.parent = this;
+        reportsPageController.parent = this;
     }
 }
