@@ -51,6 +51,9 @@ public class DatabaseConnection {
     private PreparedStatement pDeleteEmployee;
 
 
+    /**
+     * @author Rishi Chandnani and Wesley Taylor
+     */
     public DatabaseConnection() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -102,10 +105,22 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Shuts down the connection to the database.
+     * 
+     * @throws SQLException if closing connection fails
+     */
     public void shutdown() throws SQLException {
         conn.close();
     }
 
+    /**
+     * Gets the next item ID available in the database.
+     * 
+     * @return The next available item ID
+     * 
+     * @throws SQLException if the SQL query fails
+     */
     private int getNextItemID() throws SQLException {
         ResultSet result = pGetNextItemID.executeQuery();
         if (result.next()) {
@@ -117,6 +132,13 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Gets the next receipt ID available in the database.
+     * 
+     * @return The next available receipt ID
+     * 
+     * @throws SQLException if the SQL query fails
+     */
     private int getNextReceiptID() throws SQLException {
         ResultSet result = pGetNextReceiptID.executeQuery();
         if (result.next()) {
@@ -128,6 +150,13 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Gets the next order ID available in the database.
+     * 
+     * @return The next available order ID
+     * 
+     * @throws SQLException if the SQL query fails
+     */
     private int getNextOrderID() throws SQLException {
         ResultSet result = pGetNextOrderID.executeQuery();
         if (result.next()) {
@@ -139,6 +168,13 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Calculates the total on a receipt.
+     * 
+     * @param receipt The receipt to calculate total of
+     * @return The total of the receipt
+     * @throws SQLException if an item unit price lookup fails
+     */
     public double calcTotal(Receipt receipt) throws SQLException {
         double total = 0;
 
@@ -149,6 +185,13 @@ public class DatabaseConnection {
         return total;
     }
 
+    /**
+     * Calculates the total on a order.
+     * 
+     * @param order The order to calculate total of
+     * @return The total of the order
+     * @throws SQLException if an item unit price lookup fails
+     */
     public double calcTotal(Order order) throws SQLException {
         double total = 0;
 
@@ -159,6 +202,13 @@ public class DatabaseConnection {
         return total;
     }
 
+    /**
+     * Adds an item (not including its quantity) into the database.
+     * 
+     * @param item The item to insert
+     * @return The ID of the created item
+     * @throws SQLException if the SQL query failed
+     */
     public int addItem(Item item) throws SQLException {
         int nextID = getNextItemID();
         pAddItem.setInt(1, nextID);
@@ -169,6 +219,13 @@ public class DatabaseConnection {
         return nextID;
     }
 
+    /**
+     * Gets an item (including its quantity) into the database.
+     * 
+     * @param id The id of the item to insert
+     * @return The item retrieved from the database
+     * @throws SQLException if the SQL query failed (or if no item found with that ID)
+     */
     public Item getItem(int id) throws SQLException {
         pGetItem.setInt(1, id);
         ResultSet result = pGetItem.executeQuery();
@@ -180,6 +237,12 @@ public class DatabaseConnection {
                 result.getDouble("remaining_stock"));
     }
 
+    /**
+     * Gets the list of all items in the database.
+     * 
+     * @return List of all items in the database
+     * @throws SQLException if the SQL query failed
+     */
     public List<Item> getItems() throws SQLException {
         List<Item> items = new ArrayList<>();
         ResultSet result = pGetItems.executeQuery();
@@ -193,6 +256,12 @@ public class DatabaseConnection {
         return items;
     }
 
+    /**
+     * Updates an item (not including its quantity) in the database.
+     * 
+     * @param item The new data of the item
+     * @throws SQLException if the SQL query failed
+     */
     public void updateItem(Item newItem) throws SQLException {
         pUpdateItem.setString(1, newItem.name);
         pUpdateItem.setDouble(2, newItem.price);
@@ -201,6 +270,12 @@ public class DatabaseConnection {
         pUpdateItem.executeUpdate();
     }
 
+    /**
+     * Deletes an item from the database.
+     * 
+     * @param id The id of the item to delete
+     * @throws SQLException if the SQL query failed
+     */
     public void deleteItem(int id) throws SQLException {
         pDeleteItem.setInt(1, id);
         pDeleteItem.executeUpdate();
