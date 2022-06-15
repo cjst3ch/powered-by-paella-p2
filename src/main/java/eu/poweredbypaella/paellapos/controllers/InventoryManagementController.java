@@ -100,6 +100,7 @@ public class InventoryManagementController implements Initializable {
                                 itemByWeight.isSelected(),
                                 Double.parseDouble(itemQuantity.getText()));
         db.updateItem(newItem);
+        db.setQuantity(selected.id, newItem.quantity);
         refreshTable();
 
         // Clear inputs
