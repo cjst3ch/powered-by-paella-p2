@@ -36,6 +36,8 @@ public class PresentationStackController implements Initializable {
     public AnchorPane orderPlacements;
     @FXML
     public AnchorPane receipts;
+    @FXML
+    public AnchorPane
 
     // PAGES
     @FXML
@@ -52,6 +54,8 @@ public class PresentationStackController implements Initializable {
     public OrderPlacementsController orderPlacementsController;
     @FXML
     public ReceiptsController receiptsController;
+    @FXML
+    public ReportsController reportsController;
 
     // DATA
     public int employeeID = 2;
@@ -98,5 +102,6 @@ public class PresentationStackController implements Initializable {
         orderListController.parent = this;
         orderPlacementsController.parent = this;
         receiptsController.parent = this;
+        reportsController.parent = this;
     }
 }

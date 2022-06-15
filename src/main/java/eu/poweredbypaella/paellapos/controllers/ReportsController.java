@@ -53,4 +53,23 @@ public class ReportsController implements Initializable {
     public void switchToLoginPage(ActionEvent event) throws IOException {
         parent.openLoginPage();
     }
+
+
+    // DATE SELECTION RANGE
+
+    public void reportsOneDay(ActionEvent event) throws IOException{
+
+    }
+
+    public void reportsSevenDays(ActionEvent event) throws IOException{
+
+    }
+
+    public void reportsThirtyDays(ActionEvent event) throws IOException{
+
+    }
+
+    public void reportsCustomRadio(ActionEvent event) throws IOException{
+
+    }
 }

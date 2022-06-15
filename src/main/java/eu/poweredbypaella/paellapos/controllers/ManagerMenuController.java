@@ -52,6 +52,10 @@ public class ManagerMenuController implements Initializable {
         parent.openOrderListPage();
     }
 
+    public void switchToReportsPage(ActionEvent event) throws IOException {
+        parent.openRe
+    }
+
     public void switchToLoginPage(ActionEvent event) throws IOException {
         parent.openLoginPage();
     }

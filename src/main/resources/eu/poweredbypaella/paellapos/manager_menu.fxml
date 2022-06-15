@@ -5,34 +5,39 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:controller="eu.poweredbypaella.paellapos.controllers.ManagerMenuController" style="-fx-background-color: #F3F3F3;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F3F3F3;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.poweredbypaella.paellapos.controllers.ManagerMenuController">
    <children>
-      <Label layoutX="420.0" layoutY="80.0" text="Manager Menu">
+      <Label layoutX="420.0" layoutY="54.0" text="Manager Menu">
          <font>
             <Font size="65.0" />
          </font>
       </Label>
-      <Button layoutX="455.0" layoutY="212.0" mnemonicParsing="false" onAction="#switchToCheckoutPage" prefHeight="57.0" prefWidth="371.0" text="Checkout Page">
+      <Button layoutX="455.0" layoutY="184.0" mnemonicParsing="false" onAction="#switchToCheckoutPage" prefHeight="57.0" prefWidth="371.0" text="Checkout Page">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button layoutX="455.0" layoutY="291.0" mnemonicParsing="false" onAction="#switchToInventoryManagement" prefHeight="57.0" prefWidth="371.0" text="Inventory Management">
+      <Button layoutX="455.0" layoutY="252.0" mnemonicParsing="false" onAction="#switchToInventoryManagement" prefHeight="57.0" prefWidth="371.0" text="Inventory Management">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button layoutX="455.0" layoutY="370.0" mnemonicParsing="false" onAction="#switchToReceipts" prefHeight="57.0" prefWidth="371.0" text="Receipts">
+      <Button layoutX="455.0" layoutY="322.0" mnemonicParsing="false" onAction="#switchToReceipts" prefHeight="57.0" prefWidth="371.0" text="Receipts">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button layoutX="455.0" layoutY="451.0" mnemonicParsing="false" onAction="#switchToOrderPlacement" prefHeight="57.0" prefWidth="371.0" text="Order Placements">
+      <Button layoutX="455.0" layoutY="395.0" mnemonicParsing="false" onAction="#switchToOrderPlacement" prefHeight="57.0" prefWidth="371.0" text="Order Placements">
          <font>
             <Font size="25.0" />
          </font>
       </Button>
-      <Button layoutX="455.0" layoutY="533.0" mnemonicParsing="false" onAction="#switchToOrderList" prefHeight="57.0" prefWidth="371.0" text="Order List">
+      <Button layoutX="455.0" layoutY="467.0" mnemonicParsing="false" onAction="#switchToOrderList" prefHeight="57.0" prefWidth="371.0" text="Order List">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="455.0" layoutY="539.0" mnemonicParsing="false" onAction="#switchToReportsPage" prefHeight="57.0" prefWidth="371.0" text="Reports Page">
          <font>
             <Font size="25.0" />
          </font>
