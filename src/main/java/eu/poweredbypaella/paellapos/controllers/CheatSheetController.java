@@ -41,7 +41,17 @@ public class CheatSheetController implements Initializable {
             itemTable.getItems().addAll(db.getItems());
         } catch (SQLException e) {
             System.err.println("Failed to retrieve items: ");
-            System.err.println(e.toString());
+            System.err.println(e);
+        }
+    }
+
+    public void refresh() {
+        try {
+            itemTable.getItems().clear();
+            itemTable.getItems().addAll(db.getItems());
+        } catch (SQLException e) {
+            System.err.println("Failed to refresh items: ");
+            System.err.println(e);
         }
     }
 }

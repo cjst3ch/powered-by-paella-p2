@@ -99,6 +99,20 @@ public class CheckoutPageController implements Initializable {
     }
 
     @FXML
+    public void clear() {
+        // Clear receipt data
+        itemTable.getItems().clear();
+        currentReceipt = new Receipt();
+
+        // Clear input fields
+        itemPurchased.clear();
+        purchaseQuantity.clear();
+        purchaseTotal.clear();
+
+        unitLabel.setText("");
+    }
+
+    @FXML
     public void onEnterClick() throws SQLException {
         // Get requested item ID
         int itemID = Integer.parseInt(itemPurchased.getText());
@@ -151,7 +165,15 @@ public class CheckoutPageController implements Initializable {
 
             // add receipt
             db.addReceipt(currentReceipt);
-            itemTable.getItems().clear();
+
+            clear();
+
+            // update cheat sheet
+            parent.cheatSheetController.refresh();
+
+            // update inv management
+            parent.inventoryManagementController.refreshTable();
+
         } catch (SQLException e) {
             System.err.println(e.toString());
             e.printStackTrace();
@@ -159,18 +181,16 @@ public class CheckoutPageController implements Initializable {
     }
 
     @FXML
-    public void onBackClick() {
-    }
+    public void voidRow() {
+        Item selected = itemTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
 
-    @FXML
-    public void onLogoutClick() {
-        System.exit(0);
+        itemTable.getItems().remove(selected);
+        currentReceipt.items.remove(selected.id);
     }
-
 
     @FXML
     public void skuOnAction(InputEvent event) {
-        System.out.println("ACTION!");
         try {
             int itemID = Integer.parseInt(itemPurchased.getText());
             Item item = db.getItem(itemID);
@@ -185,10 +205,12 @@ public class CheckoutPageController implements Initializable {
     }
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
+        clear();
         parent.openManagerMenuPage();
     }
 
     public void switchToLoginPage(ActionEvent event) throws IOException {
+        clear();
         parent.openLoginPage();
     }
 

@@ -61,7 +61,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="404.0" layoutY="598.0" mnemonicParsing="false" onAction="#onCheckoutReadyClick" prefHeight="45.0" prefWidth="365.0" text="Checkout">
+      <Button layoutX="413.0" layoutY="598.0" mnemonicParsing="false" onAction="#onCheckoutReadyClick" prefHeight="45.0" prefWidth="356.0" text="Checkout">
          <font>
             <Font size="20.0" />
          </font>
@@ -84,5 +84,15 @@
          <font>
             <Font size="20.0" />
          </font></Button>
+      <Button layoutX="948.0" layoutY="598.0" mnemonicParsing="false" onAction="#clear" prefHeight="45.0" prefWidth="148.0" text="Clear All">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="823.0" layoutY="598.0" mnemonicParsing="false" onAction="#voidRow" prefHeight="45.0" prefWidth="125.0" text="Clear Row">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
