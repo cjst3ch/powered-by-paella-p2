@@ -38,6 +38,9 @@ public class CheckoutPageController implements Initializable {
     @FXML
     public Label employeeNameLabel;
 
+    @FXML
+    public Label checkoutInvalidSKU;
+
     // Receipt table
     @FXML
     public TableView<Item> itemTable;
@@ -115,19 +118,27 @@ public class CheckoutPageController implements Initializable {
     @FXML
     public void onEnterClick() throws SQLException {
         // Get requested item ID
-        int itemID = Integer.parseInt(itemPurchased.getText());
-        double quantity = Double.parseDouble(purchaseQuantity.getText());
-        double currentToBuy = 0.0;
-        if (currentReceipt.items.containsKey(itemID)) {
-            currentToBuy = currentReceipt.items.get(itemID);
+        try{
+            int itemID = Integer.parseInt(itemPurchased.getText());
+            db.getItem(itemID);
+            double quantity = Double.parseDouble(purchaseQuantity.getText());
+            double currentToBuy = 0.0;
+            if (currentReceipt.items.containsKey(itemID)) {
+                currentToBuy = currentReceipt.items.get(itemID);
+            }
+            if (db.getQuantity(itemID) >= quantity + currentToBuy) {
+                currentReceipt.addItem(itemID, quantity);
+                currentReceipt.total = db.calcTotal(currentReceipt);
+                renderReceipt(currentReceipt);
+            } else {
+                purchaseQuantity.setText(String.format("%.3f", db.getQuantity(itemID) - currentToBuy));
+            }
+            checkoutInvalidSKU.setText("");
+
+        } catch (SQLException e) {
+            checkoutInvalidSKU.setText("Invalid SKU#");
         }
-        if (db.getQuantity(itemID) >= quantity + currentToBuy) {
-            currentReceipt.addItem(itemID, quantity);
-            currentReceipt.total = db.calcTotal(currentReceipt);
-            renderReceipt(currentReceipt);
-        } else {
-            purchaseQuantity.setText(String.format("%.3f", db.getQuantity(itemID) - currentToBuy));
-        }
+
     }
 
     @FXML

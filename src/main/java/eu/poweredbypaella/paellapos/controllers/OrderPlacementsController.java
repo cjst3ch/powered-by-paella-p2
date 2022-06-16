@@ -165,7 +165,7 @@ public class OrderPlacementsController implements Initializable {
             renderOrder(currentOrder);
             wrongSKUNum.setText("");
         } catch(Exception e) {
-            wrongSKUNum.setText("Invalid Input!");
+            wrongSKUNum.setText("Invalid SKU#");
         }
 
     }
