@@ -15,7 +15,7 @@
             <Font size="45.0" />
          </font>
       </Label>
-      <TableView layoutX="324.0" layoutY="181.0" prefHeight="320.0" prefWidth="900.0">
+      <TableView fx:id="itemOrderTable" layoutX="324.0" layoutY="181.0" prefHeight="320.0" prefWidth="900.0">
         <columns>
           <TableColumn fx:id="orderPlacementItem" prefWidth="300.0" text="Item" />
             <TableColumn fx:id="orderPlacementOnHand" prefWidth="300.0" text="On Hand" />
@@ -82,7 +82,7 @@
             <Font size="20.0" />
          </font>
       </TextField>
-      <Label layoutX="887.0" layoutY="519.0" prefHeight="46.0" prefWidth="82.0" text="Unit">
+      <Label fx:id="orderUnitLabel" layoutX="887.0" layoutY="519.0" prefHeight="46.0" prefWidth="82.0" text="Unit">
          <font>
             <Font size="30.0" />
          </font>
