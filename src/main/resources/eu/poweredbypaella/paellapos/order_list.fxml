@@ -80,22 +80,12 @@
             <TableColumn fx:id="orderItemQuant" prefWidth="335.0" text="Quantity" />
          </columns>
       </TableView>
-      <TextField fx:id="orderID" layoutX="509.0" layoutY="524.0" prefHeight="45.0" prefWidth="207.0" promptText="Enter Item ID">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
-      <Label layoutX="393.0" layoutY="524.0" prefHeight="45.0" prefWidth="136.0" text="Item ID:">
+      <Label layoutX="597.0" layoutY="524.0" prefHeight="45.0" prefWidth="136.0" text="Quantity:">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label layoutX="805.0" layoutY="524.0" prefHeight="45.0" prefWidth="136.0" text="Quantity:">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <TextField fx:id="orderQuantity" layoutX="941.0" layoutY="524.0" prefHeight="45.0" prefWidth="207.0" promptText="Enter Quantity">
+      <TextField fx:id="orderQuantity" layoutX="733.0" layoutY="524.0" prefHeight="45.0" prefWidth="207.0" promptText="Enter Quantity">
          <font>
             <Font size="20.0" />
          </font>
