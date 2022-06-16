@@ -4,24 +4,65 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" fx:controller="eu.poweredbypaella.paellapos.controllers.OrderPlacementsController" style="-fx-background-color: #F3F3F3;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F3F3F3;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.poweredbypaella.paellapos.controllers.OrderPlacementsController">
    <children>
       <Label layoutX="50.0" layoutY="85.0" text="Order Placements">
          <font>
             <Font size="45.0" />
          </font>
       </Label>
-      <TableView layoutX="324.0" layoutY="181.0" prefHeight="387.0" prefWidth="900.0">
+      <TableView fx:id="itemOrderTable" layoutX="324.0" layoutY="181.0" prefHeight="320.0" prefWidth="900.0">
         <columns>
           <TableColumn fx:id="orderPlacementItem" prefWidth="300.0" text="Item" />
             <TableColumn fx:id="orderPlacementOnHand" prefWidth="300.0" text="On Hand" />
           <TableColumn fx:id="orderPlacementOrderAmount" prefWidth="300.0" text="Order Amount" />
         </columns>
       </TableView>
-      <Button layoutX="984.0" layoutY="587.0" mnemonicParsing="false" onAction="#onPlaceOrderClick" prefHeight="50.0" prefWidth="240.0" text="Place Order">
+      <Label layoutX="322.0" layoutY="519.0" prefHeight="46.0" prefWidth="139.0" text="Item SKU:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField fx:id="orderPlacementSKU" layoutX="461.0" layoutY="520.0" onKeyTyped="#onSKUInput" prefHeight="43.0" prefWidth="126.0" promptText="SKU#">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Label layoutX="602.0" layoutY="519.0" prefHeight="46.0" prefWidth="139.0" text="Quantity:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField fx:id="orderPlacementQuantity" layoutX="752.0" layoutY="520.0" prefHeight="43.0" prefWidth="126.0" promptText="Quantity#">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Label fx:id="orderUnitLabel" layoutX="887.0" layoutY="519.0" prefHeight="46.0" prefWidth="82.0" text="Unit">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="982.0" layoutY="517.0" mnemonicParsing="false" onAction="#orderPlacementEnterClick" prefHeight="50.0" prefWidth="240.0" text="Enter">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="321.0" layoutY="586.0" mnemonicParsing="false" onAction="#orderClearAllClick" prefHeight="50.0" prefWidth="240.0" text="Clear All">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="644.0" layoutY="586.0" mnemonicParsing="false" onAction="#orderClearRowClick" prefHeight="50.0" prefWidth="240.0" text="Clear Row">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="986.0" layoutY="588.0" mnemonicParsing="false" onAction="#orderPlacementClick" prefHeight="50.0" prefWidth="240.0" text="Place Order">
          <font>
             <Font size="20.0" />
          </font>
@@ -61,5 +102,10 @@
             <Font size="20.0" />
          </font>
       </Button>
+      <Label fx:id="wrongSKUNum" layoutX="585.0" layoutY="647.0" textFill="#fd2424">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
