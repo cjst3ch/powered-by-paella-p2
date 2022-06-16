@@ -1,6 +1,7 @@
 package eu.poweredbypaella.paellapos.controllers;
 
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
+import eu.poweredbypaella.paellapos.data.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -35,11 +37,26 @@ public class LoginPageController implements Initializable {
     @FXML
     public Label employeeNameLabel;
 
+    @FXML
+    public TextField username;
+
     public void onLoginClick(ActionEvent event) throws IOException, SQLException {
-        if (db.getEmployee(employeeID).isAdmin) {
-            switchToManagerMenu(event);
-        } else {
-            switchToCheckoutPage(event);
+        // Set employee ID
+        try {
+            Employee employee = db.getEmployee(Integer.parseInt(username.getText()));
+            employeeID = Integer.parseInt(username.getText());
+            username.clear();
+            parent.checkoutPageController.employeeNameLabel.setText(employee.name);
+            if (db.getEmployee(employeeID).isAdmin) {
+                switchToManagerMenu(event);
+                parent.checkoutPageController.backButton.setDisable(false);
+
+            } else {
+                switchToCheckoutPage(event);
+                parent.checkoutPageController.backButton.setDisable(true);
+            }
+        } catch (Exception e) {
+            // TODO: hey that's not an employee lmao
         }
     }
 
