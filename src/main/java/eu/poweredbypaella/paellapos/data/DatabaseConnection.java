@@ -63,6 +63,12 @@ public class DatabaseConnection {
     private PreparedStatement pGetEmployees;
     private PreparedStatement pDeleteEmployee;
 
+    //Get the date ranges for sales
+    private PreparedStatement pGetCustomDayRange;
+    private PreparedStatement pGetExcess;
+    private PreparedStatement pGetExcess2;
+    private PreparedStatement pGetRestock;
+
 
     /**
      * @author Rishi Chandnani and Wesley Taylor
@@ -120,6 +126,12 @@ public class DatabaseConnection {
             pGetEmployee = conn.prepareStatement("SELECT employee_name, is_admin FROM employees WHERE id = ?");
             pGetEmployees = conn.prepareStatement("SELECT employee_name, is_admin FROM employees");
             pDeleteEmployee = conn.prepareStatement("DELETE FROM employees WHERE id = ?");
+
+            //Get the date ranges for sales
+            pGetCustomDayRange = conn.prepareStatement("SELECT i.display_name, subby.sum, (subby.sum * i.unit_price) as total FROM items i, (select l.item_id, sum(l.quantity) FROM receipt_lines l, receipts r WHERE l.receipt_id = r.id AND r.transaction_date >= ? AND r.transaction_date <= ? GROUP BY l.item_id) subby WHERE i.id = subby.item_id");
+            pGetExcess = conn.prepareStatement("SELECT i.id, i.display_name, subby.sum, i.remaining_stock FROM items i, ( select l.item_id, sum(l.quantity) FROM receipt_lines l, receipts r WHERE l.receipt_id = r.id AND r.transaction_date >= ? AND r.transaction_date <= ? group by l.item_id ) subby WHERE i.id = subby.item_id AND subby.sum < (i.remaining_stock * 0.1)");
+            pGetExcess2 = conn.prepareStatement("SELECT * FROM items WHERE id not in (select i.id from items i, (select l.item_id, sum(l.quantity) FROM receipt_lines l, receipts r WHERE l.receipt_id = r.id AND r.transaction_date >= ? AND r.transaction_date <= ? group by l.item_id ) subby WHERE i.id = subby.item_id)");
+            pGetRestock = conn.prepareStatement("SELECT i.id, i.display_name, subby.sum, i.remaining_stock FROM items i, ( select l.item_id, sum(l.quantity) FROM receipt_lines l, receipts r WHERE l.receipt_id = r.id AND r.transaction_date >= ? AND r.transaction_date <= ? group by l.item_id ) subby WHERE i.id = subby.item_id AND subby.sum > i.remaining_stock");
 
 
         } catch (Exception e) {
@@ -650,5 +662,56 @@ public class DatabaseConnection {
     public void deleteEmployee(int id) throws SQLException {
         pDeleteEmployee.setInt(1, id);
         pDeleteEmployee.executeUpdate();
+    }
+
+    /**
+     * Returns a list of sales from the database.
+     *
+     * @param start The id of the employee in the database.
+     * @param finish The timestamp of the end of the
+     * @return list of the sales
+     * @throws SQLException if the SQL query failed
+     */
+    public List<SalesInfo> getSalesRange(Timestamp start, Timestamp finish) throws SQLException {
+        List<SalesInfo> sales = new ArrayList<>();
+        pGetCustomDayRange.setTimestamp(1, start);
+        pGetCustomDayRange.setTimestamp(2, finish);
+        ResultSet result = pGetCustomDayRange.executeQuery();
+        while (result.next()) {
+            sales.add(new SalesInfo(result.getString("display_name"),
+                    result.getDouble("sum"),
+                    result.getDouble("total")));
+        }
+        return sales;
+    }
+
+    public List<Item> getExcess(Timestamp start, Timestamp finish) throws SQLException {
+        List<Item> itemNames = new ArrayList<>();
+        pGetExcess.setTimestamp(1, start);
+        pGetExcess.setTimestamp(2, finish);
+        ResultSet result = pGetExcess.executeQuery();
+        while (result.next()) {
+            itemNames.add(new Item(result.getString("display_name")));
+        }
+
+        pGetExcess2.setTimestamp(1, start);
+        pGetExcess2.setTimestamp(2, finish);
+        result = pGetExcess2.executeQuery();
+        while (result.next()) {
+            itemNames.add(new Item(result.getString("display_name")));
+        }
+
+        return itemNames;
+    }
+
+    public List<Item> getRestock(Timestamp start, Timestamp finish) throws SQLException {
+        List<Item> itemNames = new ArrayList<>();
+        pGetRestock.setTimestamp(1, start);
+        pGetRestock.setTimestamp(2, finish);
+        ResultSet result = pGetRestock.executeQuery();
+        while (result.next()) {
+            itemNames.add(new Item(result.getString("display_name")));
+        }
+        return itemNames;
     }
 }
