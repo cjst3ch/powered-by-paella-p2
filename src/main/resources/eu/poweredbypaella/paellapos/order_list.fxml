@@ -68,7 +68,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="908.0" layoutY="612.0" mnemonicParsing="false" onAction="#receivedOrder" prefHeight="52.0" prefWidth="240.0" text="Mark Received">
+      <Button fx:id="markReceivedButton" disable="true" layoutX="908.0" layoutY="612.0" mnemonicParsing="false" onAction="#receivedOrder" prefHeight="52.0" prefWidth="240.0" text="Mark Received">
          <font>
             <Font size="20.0" />
          </font>

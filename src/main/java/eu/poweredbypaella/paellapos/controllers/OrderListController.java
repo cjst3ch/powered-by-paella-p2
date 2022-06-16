@@ -56,6 +56,8 @@ public class OrderListController implements Initializable {
     // Input
     @FXML
     public TextField orderQuantity;
+    @FXML
+    public Button markReceivedButton;
 
     // Item data cache
     private final HashMap<Integer, Item> itemCache = new HashMap<>();
@@ -98,6 +100,9 @@ public class OrderListController implements Initializable {
         if (currentOrder == selected) return;
 
         currentOrder = selected;
+
+        markReceivedButton.setDisable(currentOrder.received);
+
         renderOrder();
     }
 
@@ -199,9 +204,18 @@ public class OrderListController implements Initializable {
         Order selected = ordersView.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
+        // Update quantity for all items
+        for (Integer item : selected.items.keySet()) {
+            double oldQuantity = db.getQuantity(item);
+            db.setQuantity(item, oldQuantity + selected.items.get(item));
+        }
+
         selected.received = true;
 
         db.updateOrderInfo(selected.id, selected);
+        markReceivedButton.setDisable(true);
+
+        parent.inventoryManagementController.refreshTable();
 
         refreshOrders();
     }
