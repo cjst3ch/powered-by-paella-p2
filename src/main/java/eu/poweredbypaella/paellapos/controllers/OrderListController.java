@@ -43,7 +43,7 @@ public class OrderListController implements Initializable {
     @FXML
     public TableColumn<Order, Boolean> orderReceived;
 
-    // Items table
+    // Order Information Table
     @FXML
     public TableView<Item> itemsView;
     @FXML
@@ -60,7 +60,7 @@ public class OrderListController implements Initializable {
     public TextField orderQuantity;
 
     // Item data cache
-    private HashMap<Integer, Item> itemCache = new HashMap<>();
+    private final HashMap<Integer, Item> itemCache = new HashMap<>();
 
     // Database connection
     public DatabaseConnection db;
@@ -69,18 +69,14 @@ public class OrderListController implements Initializable {
         ordersView.getItems().clear();
         ordersView.getItems().addAll(db.getOrders());
 
-        try {
-            for (Item item : db.getItems()) {
-                itemCache.put(item.id, item);
-            }
-        } catch (SQLException e) {
-            System.err.println(e);
+        for (Item item : db.getItems()) {
+            itemCache.put(item.id, item);
         }
     }
 
     private Order currentOrder = new Order();
 
-    public void renderOrder() throws SQLException {
+    public void renderOrder() {
         itemsView.getItems().clear();
         for (Integer id : currentOrder.getItems()) {
             Item item = itemCache.get(id);
@@ -108,7 +104,7 @@ public class OrderListController implements Initializable {
     }
 
     @FXML
-    protected void onItemTableClick() throws SQLException {
+    protected void onItemTableClick() {
         Item selected = itemsView.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
@@ -171,6 +167,7 @@ public class OrderListController implements Initializable {
         if (selected == null) return;
         currentOrder.items.remove(selected.id);
         currentOrder.items.put(Integer.parseInt(orderID.getText()), Double.parseDouble(orderQuantity.getText()));
+        currentOrder.cost = db.calcTotal(currentOrder);
         db.updateOrder(currentOrder.id, currentOrder);
 
         renderOrder();
@@ -181,6 +178,7 @@ public class OrderListController implements Initializable {
             Item selected = itemsView.getSelectionModel().getSelectedItem();
             if (selected == null) return;
             currentOrder.items.remove(selected.id);
+            currentOrder.cost = db.calcTotal(currentOrder);
             db.updateOrder(currentOrder.id, currentOrder);
 
             renderOrder();
@@ -191,9 +189,8 @@ public class OrderListController implements Initializable {
 
             itemsView.getItems().clear();
             currentOrder = new Order();
-
-            refreshOrders();
         }
+        refreshOrders();
     }
 
     public void receivedOrder() throws SQLException {
