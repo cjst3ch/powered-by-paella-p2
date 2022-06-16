@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,9 +23,11 @@ public class HelloApplication extends Application {
         int width = 1280;
         int height = 720;
 
+        Stage stage2 = new Stage();
         Scene scene = new Scene(root, width, height);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+        stage.setOnCloseRequest(e -> stage2.close());
         stage.setOnHiding(e -> {
             try {
                 controller.checkoutPageController.db.shutdown();
@@ -44,10 +47,11 @@ public class HelloApplication extends Application {
             FXMLLoader loader2 = new FXMLLoader(getClass().getResource("cheat_sheet.fxml"));
             Parent root2 = loader2.load();
             CheatSheetController controller2 = (CheatSheetController)(loader2.getController());
-            Stage stage2 = new Stage();
             stage2.setTitle("Item Cheat Sheet");
             stage2.setScene(new Scene(root2, 450, 450));
             stage2.setAlwaysOnTop(true);
+            stage2.initStyle(StageStyle.UTILITY);
+            stage2.setOnCloseRequest(e->e.consume());
             stage2.setOnHiding(e -> {
                 try {
                     controller2.db.shutdown();

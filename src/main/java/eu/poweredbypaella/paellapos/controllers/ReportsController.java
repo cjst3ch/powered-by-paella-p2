@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -19,11 +21,28 @@ public class ReportsController implements Initializable {
     @FXML
     public PresentationStackController parent;
 
+
+    // Range type selector (1/7/30 days || custom)
     @FXML
-    public Label employeeNameLabel;
+    public RadioButton selectOneDay;
+    @FXML
+    public RadioButton selectSevenDays;
+    @FXML
+    public RadioButton selectThirtyDays;
+    @FXML
+    public RadioButton selectCustom;
+
+    private ToggleGroup toggleGroup = new ToggleGroup();
+
+
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = new DatabaseConnection();
+        selectOneDay.setToggleGroup(toggleGroup);
+        selectOneDay.setSelected(true);
+        selectSevenDays.setToggleGroup(toggleGroup);
+        selectThirtyDays.setToggleGroup(toggleGroup);
+        selectCustom.setToggleGroup(toggleGroup);
     }
 
 

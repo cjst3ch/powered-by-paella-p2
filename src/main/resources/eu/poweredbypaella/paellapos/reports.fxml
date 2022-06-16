@@ -17,10 +17,10 @@
             <Font size="45.0" />
          </font>
       </Label>
-      <RadioButton layoutX="584.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsOneDay" text="1 Day" />
-      <RadioButton layoutX="646.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsSevenDays" text="7 Days" />
-      <RadioButton layoutX="713.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsThirtyDays" text="30 Days" />
-      <RadioButton layoutX="786.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsCustomRadio" text="Custom" />
+      <RadioButton fx:id="selectOneDay" layoutX="584.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsOneDay" text="1 Day" />
+      <RadioButton fx:id="selectSevenDays" layoutX="646.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsSevenDays" text="7 Days" />
+      <RadioButton fx:id="selectThirtyDays" layoutX="713.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsThirtyDays" text="30 Days" />
+      <RadioButton fx:id="selectCustom" layoutX="786.0" layoutY="86.0" mnemonicParsing="false" onAction="#reportsCustomRadio" text="Custom" />
       <DatePicker fx:id="reportsFromDate" layoutX="873.0" layoutY="82.0" promptText="From" />
       <DatePicker fx:id="reportsToDate" layoutX="1047.0" layoutY="82.0" promptText="To" />
       <TableView fx:id="reportsSales" layoutX="321.0" layoutY="158.0" prefHeight="400.0" prefWidth="300.0">
