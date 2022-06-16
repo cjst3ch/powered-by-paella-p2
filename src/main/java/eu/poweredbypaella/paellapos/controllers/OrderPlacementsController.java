@@ -61,6 +61,8 @@ public class OrderPlacementsController implements Initializable {
     public TextField orderPlacementQuantity;
     @FXML
     public Label orderUnitLabel;
+    @FXML
+    public Label wrongSKUNum;
 
     // Local Order
     @FXML
@@ -155,15 +157,15 @@ public class OrderPlacementsController implements Initializable {
     @FXML
     public void orderPlacementEnterClick() throws SQLException {
         // Get requested item ID
-
         try {
             int itemID = Integer.parseInt(orderPlacementSKU.getText());
             db.getItem(itemID);
             double quantity = Double.parseDouble(orderPlacementQuantity.getText());
             currentOrder.addItem(itemID, quantity);
             renderOrder(currentOrder);
+            wrongSKUNum.setText("");
         } catch(Exception e) {
-            System.err.println("Invalid Input");
+            wrongSKUNum.setText("Invalid Input!");
         }
 
     }
