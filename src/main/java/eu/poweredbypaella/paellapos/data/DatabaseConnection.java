@@ -667,8 +667,8 @@ public class DatabaseConnection {
     /**
      * Returns a list of sales from the database.
      *
-     * @param start The id of the employee in the database.
-     * @param finish The timestamp of the end of the
+     * @param start The timestamp of the start of the time frame
+     * @param finish The timestamp of the end of the time frame
      * @return list of the sales
      * @throws SQLException if the SQL query failed
      */
@@ -685,6 +685,14 @@ public class DatabaseConnection {
         return sales;
     }
 
+    /**
+     * Returns a list of excess from the database.
+     *
+     * @param start The timestamp of the start of the time frame
+     * @param finish The timestamp of the end of the time frame
+     * @return list of the excess
+     * @throws SQLException if the SQL query failed
+     */
     public List<Item> getExcess(Timestamp start, Timestamp finish) throws SQLException {
         List<Item> itemNames = new ArrayList<>();
         pGetExcess.setTimestamp(1, start);
@@ -704,6 +712,14 @@ public class DatabaseConnection {
         return itemNames;
     }
 
+    /**
+     * Returns a list of restock from the database.
+     *
+     * @param start The timestamp of the start of the time frame
+     * @param finish The timestamp of the end of the time frame
+     * @return list of the restock
+     * @throws SQLException if the SQL query failed
+     */
     public List<Item> getRestock(Timestamp start, Timestamp finish) throws SQLException {
         List<Item> itemNames = new ArrayList<>();
         pGetRestock.setTimestamp(1, start);
