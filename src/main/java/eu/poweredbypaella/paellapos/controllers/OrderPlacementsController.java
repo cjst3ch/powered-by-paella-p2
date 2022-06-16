@@ -13,13 +13,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
+import java.time.Instant;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -132,7 +135,7 @@ public class OrderPlacementsController implements Initializable {
 
     // Clear current order & input boxes
     @FXML
-    public void clear() {
+    public void orderClearAllClick() {
         // Clear receipt data
         itemOrderTable.getItems().clear();
         currentOrder = new Order();
@@ -152,17 +155,70 @@ public class OrderPlacementsController implements Initializable {
     @FXML
     public void orderPlacementEnterClick() throws SQLException {
         // Get requested item ID
-        int itemID = Integer.parseInt(orderPlacementSKU.getText());
-        double quantity = Double.parseDouble(orderPlacementQuantity.getText());
-        currentOrder.addItem(itemID, quantity);
-        renderOrder(currentOrder);
+
+        try {
+            int itemID = Integer.parseInt(orderPlacementSKU.getText());
+            db.getItem(itemID);
+            double quantity = Double.parseDouble(orderPlacementQuantity.getText());
+            currentOrder.addItem(itemID, quantity);
+            renderOrder(currentOrder);
+        } catch(Exception e) {
+            System.err.println("Invalid Input");
+        }
+
     }
 
 
+
     @FXML
-    protected void orderClearAllClick(){}
+    protected void orderClearRowClick() {
+        Item selected = itemOrderTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        itemOrderTable.getItems().remove(selected);
+        currentOrder.items.remove(selected.id);
+    }
     @FXML
-    protected void orderClearRowClick() {}
+    protected void orderPlacementClick() {
+        System.out.println("Placing New Order...");
+
+        try {
+            // Finalize receipt
+
+            currentOrder.cost = db.calcTotal(currentOrder);
+
+            // finalize delivery date
+            currentOrder.deliveryDate = Timestamp.from(Instant.now());
+
+            // add order
+            db.addOrder(currentOrder);
+
+            orderClearAllClick();
+
+            // update cheat sheet
+            parent.cheatSheetController.refresh();
+
+            // update inv management
+            parent.inventoryManagementController.refreshTable();
+
+        } catch (SQLException e) {
+            System.err.println(e.toString());
+            e.printStackTrace();
+        }
+    }
+
     @FXML
-    protected void orderPlacementClick() {}
+    public void onSKUInput(InputEvent Event){
+        try {
+            int itemID = Integer.parseInt(orderPlacementSKU.getText());
+            Item item = db.getItem(itemID);
+            if (item.byWeight) {
+                orderUnitLabel.setText("kg");
+            } else {
+                orderUnitLabel.setText("Unit");
+            }
+        } catch (SQLException e) {
+            orderUnitLabel.setText("");
+        } catch (NumberFormatException e) {}
+    }
 }
