@@ -103,3 +103,6 @@ gradle-app.setting
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# Do not track the credentials
+src/main/java/eu/poweredbypaella/paellapos/DatabaseSetup.java
