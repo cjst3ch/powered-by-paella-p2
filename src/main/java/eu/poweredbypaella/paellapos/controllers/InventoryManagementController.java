@@ -48,6 +48,9 @@ public class InventoryManagementController implements Initializable {
     public TextField itemQuantity;
 
     @FXML
+    public TextField itemQuantityDelta;
+
+    @FXML
     public CheckBox itemByWeight;
 
     @FXML
@@ -143,6 +146,28 @@ public class InventoryManagementController implements Initializable {
         itemQuantity.setText(String.format("%.3f", selected.quantity));
         itemUnitPrice.setText(String.format("%.2f", selected.price));
         itemByWeight.setSelected(selected.byWeight);
+    }
+
+    @FXML
+    public void addQuantityAmount() {
+        try {
+            double original = Double.parseDouble(itemQuantity.getText());
+            double delta = Double.parseDouble(itemQuantityDelta.getText());
+            itemQuantity.setText(Double.toString(original + delta));
+            itemQuantityDelta.setText("");
+        } catch (Exception e) {}
+    }
+
+    @FXML
+    public void subtractQuantityAmount() {
+        try {
+            double original = Double.parseDouble(itemQuantity.getText());
+            double delta = Double.parseDouble(itemQuantityDelta.getText());
+            double newAmount = original - delta;
+            newAmount = Math.max(0, newAmount);
+            itemQuantity.setText(Double.toString(newAmount));
+            itemQuantityDelta.setText("");
+        } catch (Exception e) {}
     }
 
 
