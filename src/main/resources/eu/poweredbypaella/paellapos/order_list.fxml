@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" fx:controller="eu.poweredbypaella.paellapos.controllers.OrderListController" style="-fx-background-color: #F3F3F3;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F3F3F3;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.poweredbypaella.paellapos.controllers.OrderListController">
    <children>
-      <DatePicker fx:id="fromOderListDate" layoutX="778.0" layoutY="179.0" promptText="From" />
-      <DatePicker fx:id="toOderListDate" layoutX="1054.0" layoutY="179.0" promptText="To" />
-      <TableView layoutX="328.0" layoutY="204.0" prefHeight="394.0" prefWidth="900.0">
+      <TableView fx:id="ordersView" layoutX="318.0" layoutY="53.0" onMouseClicked="#onOrderTableClick" prefHeight="269.0" prefWidth="900.0">
         <columns>
-          <TableColumn fx:id="orderNum" editable="false" prefWidth="450.0" text="Order #" />
-          <TableColumn fx:id="orderStatus" prefWidth="450.0" text="Status" />
+          <TableColumn fx:id="orderNum" editable="false" prefWidth="161.0" text="Order #" />
+          <TableColumn fx:id="orderCost" prefWidth="238.0" text="Cost" />
+            <TableColumn fx:id="orderDate" prefWidth="354.0" text="Delivery Date" />
+            <TableColumn fx:id="orderReceived" prefWidth="121.0" text="Received?" />
         </columns>
       </TableView>
-      <Label layoutX="49.0" layoutY="102.0" prefHeight="68.0" prefWidth="269.0" text="Order List">
+      <Label layoutX="49.0" layoutY="53.0" prefHeight="68.0" prefWidth="269.0" text="Order List">
          <font>
             <Font size="46.0" />
          </font>
@@ -58,5 +58,47 @@
             <Font size="20.0" />
          </font>
       </Button>
+      <Button layoutX="393.0" layoutY="612.0" mnemonicParsing="false" onAction="#updateOrder" prefHeight="52.0" prefWidth="240.0" text="Update">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="640.0" layoutY="612.0" mnemonicParsing="false" onAction="#deleteOrder" prefHeight="52.0" prefWidth="261.0" text="Delete Selected">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="908.0" layoutY="612.0" mnemonicParsing="false" onAction="#receivedOrder" prefHeight="52.0" prefWidth="240.0" text="Mark Received">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <TableView fx:id="itemsView" layoutX="318.0" layoutY="326.0" onMouseClicked="#onItemTableClick" prefHeight="166.0" prefWidth="900.0">
+         <columns>
+            <TableColumn fx:id="orderItemID" editable="false" prefWidth="132.0" text="Item #" />
+            <TableColumn fx:id="orderItemName" prefWidth="411.0" text="Item Name" />
+            <TableColumn fx:id="orderItemQuant" prefWidth="335.0" text="Quantity" />
+         </columns>
+      </TableView>
+      <TextField fx:id="orderID" layoutX="509.0" layoutY="524.0" prefHeight="45.0" prefWidth="207.0" promptText="Enter Item ID">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <Label layoutX="393.0" layoutY="524.0" prefHeight="45.0" prefWidth="136.0" text="Item ID:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="805.0" layoutY="524.0" prefHeight="45.0" prefWidth="136.0" text="Quantity:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <TextField fx:id="orderQuantity" layoutX="941.0" layoutY="524.0" prefHeight="45.0" prefWidth="207.0" promptText="Enter Quantity">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

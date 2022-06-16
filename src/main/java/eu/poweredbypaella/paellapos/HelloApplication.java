@@ -31,6 +31,7 @@ public class HelloApplication extends Application {
                 controller.inventoryManagementController.db.shutdown();
                 controller.loginPageController.db.shutdown();
                 controller.managerMenuController.db.shutdown();
+                controller.orderListController.db.shutdown();
                 controller.receiptsController.db.shutdown();
             } catch (SQLException ex) {
                 ex.printStackTrace();
