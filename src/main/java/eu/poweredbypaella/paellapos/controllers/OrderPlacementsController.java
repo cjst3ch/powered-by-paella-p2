@@ -191,6 +191,9 @@ public class OrderPlacementsController implements Initializable {
             // update inv management
             parent.inventoryManagementController.refreshTable();
 
+            // update order list
+            parent.orderListController.refreshOrders();
+
         } catch (SQLException e) {
             System.err.println(e.toString());
             e.printStackTrace();

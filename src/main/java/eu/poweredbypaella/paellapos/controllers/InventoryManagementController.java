@@ -117,6 +117,9 @@ public class InventoryManagementController implements Initializable {
 
         // Refresh cheat sheet
         parent.cheatSheetController.refresh();
+        parent.reportsPageController.renderExcess();
+        parent.reportsPageController.renderSales();
+        parent.reportsPageController.renderRestock();
     }
 
     @FXML
