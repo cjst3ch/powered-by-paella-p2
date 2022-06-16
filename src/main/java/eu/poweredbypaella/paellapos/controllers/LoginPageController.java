@@ -36,6 +36,8 @@ public class LoginPageController implements Initializable {
 
     @FXML
     public Label employeeNameLabel;
+    @FXML
+    public Label invalidLoginID;
 
     @FXML
     public TextField username;
@@ -45,6 +47,7 @@ public class LoginPageController implements Initializable {
         try {
             Employee employee = db.getEmployee(Integer.parseInt(username.getText()));
             employeeID = Integer.parseInt(username.getText());
+            db.getEmployee(employeeID);
             username.clear();
             parent.checkoutPageController.employeeNameLabel.setText(employee.name);
             if (db.getEmployee(employeeID).isAdmin) {
@@ -55,8 +58,10 @@ public class LoginPageController implements Initializable {
                 switchToCheckoutPage(event);
                 parent.checkoutPageController.backButton.setDisable(true);
             }
+            invalidLoginID.setText("");
         } catch (Exception e) {
             // TODO: hey that's not an employee lmao
+            invalidLoginID.setText("Invalid Employee ID");
         }
     }
 

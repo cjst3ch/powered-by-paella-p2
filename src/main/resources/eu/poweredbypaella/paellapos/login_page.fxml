@@ -19,6 +19,11 @@
             </Label>
             <TextField fx:id="username" layoutX="546.0" layoutY="340.0" promptText="Employee ID" />
             <Button fx:id="loginButton" layoutX="596.0" layoutY="381.0" mnemonicParsing="false" onAction="#onLoginClick" text="Log in" />
+            <Label fx:id="invalidLoginID" layoutX="489.0" layoutY="498.0" textFill="#fd2424">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
       </children>
     </AnchorPane>
   </children>
