@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashMap;
 
 public class Receipt {
+    public int id;
     public Timestamp transactionDate;
     public double total;
     public HashMap<Integer, Double> items;
@@ -12,14 +13,15 @@ public class Receipt {
     public boolean isCash;
 
     public Receipt() {
-        this(Timestamp.from(Instant.now()), 0, 1, false);
+        this(0, Timestamp.from(Instant.now()), 0, 1, false);
     }
 
-    public Receipt(Timestamp transactionDate, int employeeID, boolean isCash) {
-        this(transactionDate, 0, employeeID, isCash);
+    public Receipt(int id, Timestamp transactionDate, int employeeID, boolean isCash) {
+        this(id, transactionDate, 0, employeeID, isCash);
     }
 
-    public Receipt(Timestamp transactionDate, double total, int employeeID, boolean isCash) {
+    public Receipt(int id, Timestamp transactionDate, double total, int employeeID, boolean isCash) {
+        this.id = id;
         this.transactionDate = transactionDate;
         this.total = total;
         this.employeeID = employeeID;
@@ -36,6 +38,10 @@ public class Receipt {
         }
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public Timestamp getTransactionDate() {
         return transactionDate;
     }
@@ -48,7 +54,7 @@ public class Receipt {
         return employeeID;
     }
 
-    public boolean isCash() {
+    public boolean getIsCash() {
         return isCash;
     }
 
