@@ -7,6 +7,7 @@ import eu.poweredbypaella.paellapos.data.Receipt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,7 +23,19 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class OrderPlacementsController {
+public class OrderPlacementsController implements Initializable {
+
+    public class OrderItemView extends Item {
+        public double toBuy;
+        OrderItemView(Item item) {
+            super(item.id, item.name, item.price, item.byWeight, item.quantity);
+            this.toBuy = 0;
+        }
+
+        public Double getToBuy() {
+            return toBuy;
+        }
+    }
 
     @FXML
     public AnchorPane root;
@@ -30,13 +43,13 @@ public class OrderPlacementsController {
 
     // Order Table
     @FXML
-    public TableView<Item> itemOrderTable;
+    public TableView<OrderItemView> itemOrderTable;
     @FXML
-    public TableColumn<Item, String> orderPlacementItem;
+    public TableColumn<OrderItemView, String> orderPlacementItem;
     @FXML
-    public TableColumn<Item, Double> orderPlacementOnHand;
+    public TableColumn<OrderItemView, Double> orderPlacementOnHand;
     @FXML
-    public TableColumn<Item, Double> orderPlacementOrderAmount;
+    public TableColumn<OrderItemView, Double> orderPlacementOrderAmount;
 
     // Item input
     @FXML
@@ -60,8 +73,8 @@ public class OrderPlacementsController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         db = new DatabaseConnection();
         orderPlacementItem.setCellValueFactory(new PropertyValueFactory<>("name"));
-        orderPlacementOnHand.setCellValueFactory(new PropertyValueFactory<>("onHand"));
-        orderPlacementOrderAmount.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        orderPlacementOnHand.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        orderPlacementOrderAmount.setCellValueFactory(new PropertyValueFactory<>("toBuy"));
     }
 
 
@@ -106,9 +119,9 @@ public class OrderPlacementsController {
         itemOrderTable.getItems().clear();
         try {
             for (Integer id : order.items.keySet()) {
-                Item item = db.getItem(id);
-                item.quantity = order.items.get(id);
-                itemOrderTable.getItems().add(item);
+                OrderItemView itemView = new OrderItemView(db.getItem(id));
+                itemView.toBuy = order.items.get(id);
+                itemOrderTable.getItems().add(itemView);
             }
             NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.FRANCE);
         } catch (SQLException e) {
@@ -141,16 +154,8 @@ public class OrderPlacementsController {
         // Get requested item ID
         int itemID = Integer.parseInt(orderPlacementSKU.getText());
         double quantity = Double.parseDouble(orderPlacementQuantity.getText());
-        double currentToBuy = 0.0;
-        if (currentOrder.items.containsKey(itemID)) {
-            currentToBuy = currentOrder.items.get(itemID);
-        }
-        if (db.getQuantity(itemID) >= quantity + currentToBuy) {
-            currentOrder.addItem(itemID, quantity);
-            renderOrder(currentOrder);
-        } else {
-            orderPlacementQuantity.setText(String.format("%.3f", db.getQuantity(itemID) - currentToBuy));
-        }
+        currentOrder.addItem(itemID, quantity);
+        renderOrder(currentOrder);
     }
 
 
