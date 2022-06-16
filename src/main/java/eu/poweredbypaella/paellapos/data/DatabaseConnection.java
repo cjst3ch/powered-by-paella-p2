@@ -46,9 +46,11 @@ public class DatabaseConnection {
     private PreparedStatement pGetOrder;
     private PreparedStatement pGetOrders;
     private PreparedStatement pUpdateOrder;
+    private PreparedStatement pUpdateOrderItem;
     private PreparedStatement pGetAllOrderLines;
     private PreparedStatement pGetOrderLines;
     private PreparedStatement pDeleteOrder;
+    private PreparedStatement pDeleteOrderItem;
     private PreparedStatement pDeleteOrderLines;
 
     // Add order/order lines
@@ -102,9 +104,11 @@ public class DatabaseConnection {
             pGetOrder = conn.prepareStatement("SELECT cost, delivery_date, received FROM orders WHERE id = ?");
             pGetOrders = conn.prepareStatement("SELECT id, cost, delivery_date, received FROM orders");
             pUpdateOrder = conn.prepareStatement("UPDATE orders SET cost = ?, received = ? WHERE id = ?");
+            pUpdateOrderItem = conn.prepareStatement("UPDATE order_lines SET quantity = ? WHERE item_id = ? AND order_id = ?");
             pGetOrderLines = conn.prepareStatement("SELECT item_id, quantity FROM order_lines WHERE order_id = ?");
             pGetAllOrderLines = conn.prepareStatement("SELECT order_id, item_id, quantity FROM order_lines");
             pDeleteOrder = conn.prepareStatement("DELETE from orders WHERE id = ?");
+            pDeleteOrderItem = conn.prepareStatement("DELETE from order_lines WHERE item_id = ? AND order_id = ?");
             pDeleteOrderLines = conn.prepareStatement("DELETE from order_lines WHERE order_id = ?");
 
             // Add order/order lines
@@ -505,30 +509,27 @@ public class DatabaseConnection {
      * @param order The new order data.
      * @throws SQLException if the SQL query failed
      */
-    public void updateOrder(int id, Order order) throws SQLException {
+    public void updateOrderInfo(int id, Order order) throws SQLException {
         // Fill in cost, received
         pUpdateOrder.setDouble(1, order.cost);
         pUpdateOrder.setBoolean(2, order.received);
         pUpdateOrder.setInt(3, id);
         pUpdateOrder.executeUpdate();
+    }
 
-        // delete the receipt lines
-        pDeleteOrderLines.setInt(1, id);
-        pDeleteOrderLines.executeUpdate();
-
-
-        // add in the receipt lines
-        for (Integer itemID : order.getItems()) {
-            // Get quantity
-            double quantity = order.items.get(itemID);
-
-            // Fill out order_id, item_id, quantity
-            pAddOrderLine.setInt(1, id);
-            pAddOrderLine.setInt(2, itemID);
-            pAddOrderLine.setDouble(3, quantity);
-
-            pAddOrderLine.executeUpdate();
-        }
+    /**
+     * Updates an item in an order
+     *
+     * @param orderId The id of the receipt to update into
+     * @param item The new data of the item
+     * @throws SQLException if the SQL query failed
+     */
+    public void updateOrderItem(int orderId, Item item) throws SQLException {
+        // Fill in item_id, quantity, item_id, order_id
+        pUpdateOrderItem.setDouble(1, item.quantity);
+        pUpdateOrderItem.setInt(2, item.id);
+        pUpdateOrderItem.setInt(3, orderId);
+        pUpdateOrderItem.executeUpdate();
     }
 
     /**
@@ -546,6 +547,21 @@ public class DatabaseConnection {
         pDeleteOrderLines.setInt(1, id);
         pDeleteOrderLines.executeUpdate();
     }
+
+    /**
+     * Deletes an item from an order.
+     *
+     * @param orderId The id of the receipt to delete from
+     * @param itemId The id of the item to delete
+     * @throws SQLException if the SQL query failed
+     */
+    public void deleteOrderItem(int orderId, int itemId) throws SQLException {
+        // Fill in item_id, order_id
+        pDeleteOrderItem.setInt(1, itemId);
+        pDeleteOrderItem.setInt(2, orderId);
+        pDeleteOrderItem.executeUpdate();
+    }
+
 
     /**
      * Adds an order from the database.
