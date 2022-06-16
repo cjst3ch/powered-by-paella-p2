@@ -1,5 +1,7 @@
 package eu.poweredbypaella.paellapos.data;
 
+import eu.poweredbypaella.paellapos.DatabaseSetup;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseConnection {
-
-    private final String URL = "jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315950_3db";
-    private final String USERNAME = "csce315950_3user";
-    private final String PASSWORD = "team3three";
 
     Connection conn;
 
@@ -76,7 +74,7 @@ public class DatabaseConnection {
     public DatabaseConnection() {
         try {
             Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            conn = DriverManager.getConnection(DatabaseSetup.URL, DatabaseSetup.USERNAME, DatabaseSetup.PASSWORD);
 
             // Get/add/remove item(s)
             pAddItem = conn.prepareStatement("INSERT INTO items (id, display_name, unit_price, by_weight) VALUES (?, ?, ?, ?)");
