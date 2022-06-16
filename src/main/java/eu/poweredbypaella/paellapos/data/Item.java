@@ -11,6 +11,10 @@ public class Item {
         this(0, name, price, byWeight, 0);
     }
 
+    public Item(String name) {
+        this(0, name, 0.0, false, 0);
+    }
+
     public Item(int id, String name, Double price, boolean byWeight, double quantity) {
         this.id = id;
         this.name = name;
