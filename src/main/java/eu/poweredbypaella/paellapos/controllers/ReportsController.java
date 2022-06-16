@@ -132,16 +132,13 @@ public class ReportsController implements Initializable {
         Timestamp start;
         Timestamp finish = Timestamp.from(Instant.now());
         if((RadioButton) (toggleGroup.getSelectedToggle()) == selectOneDay){
-            System.out.println("Selected one day");
             start = Timestamp.from(Instant.now().minus(1, ChronoUnit.DAYS));
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectSevenDays) {
             start = Timestamp.from(Instant.now().minus(7, ChronoUnit.DAYS));
-            System.out.println("Selected 7a day");
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectThirtyDays) {
             start = Timestamp.from(Instant.now().minus(30, ChronoUnit.DAYS));
-            System.out.println("Selected 30 day");
         }
         else {
             if (reportsFromDate.getValue() == null || reportsToDate.getValue() == null) {
@@ -158,16 +155,13 @@ public class ReportsController implements Initializable {
         Timestamp start;
         Timestamp finish = Timestamp.from(Instant.now());
         if((RadioButton) (toggleGroup.getSelectedToggle()) == selectOneDay){
-            System.out.println("Selected one day");
             start = Timestamp.from(Instant.now().minus(1, ChronoUnit.DAYS));
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectSevenDays) {
             start = Timestamp.from(Instant.now().minus(7, ChronoUnit.DAYS));
-            System.out.println("Selected 7a day");
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectThirtyDays) {
             start = Timestamp.from(Instant.now().minus(30, ChronoUnit.DAYS));
-            System.out.println("Selected 30 day");
         }
         else {
             if (reportsFromDate.getValue() == null || reportsToDate.getValue() == null) {
@@ -184,16 +178,13 @@ public class ReportsController implements Initializable {
         Timestamp start;
         Timestamp finish = Timestamp.from(Instant.now());
         if((RadioButton) (toggleGroup.getSelectedToggle()) == selectOneDay){
-            System.out.println("Selected one day");
             start = Timestamp.from(Instant.now().minus(1, ChronoUnit.DAYS));
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectSevenDays) {
             start = Timestamp.from(Instant.now().minus(7, ChronoUnit.DAYS));
-            System.out.println("Selected 7a day");
         }
         else if((RadioButton) (toggleGroup.getSelectedToggle()) == selectThirtyDays) {
             start = Timestamp.from(Instant.now().minus(30, ChronoUnit.DAYS));
-            System.out.println("Selected 30 day");
         }
         else {
             if (reportsFromDate.getValue() == null || reportsToDate.getValue() == null) {
