@@ -27,7 +27,10 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(root, width, height);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+
+        // when closing stage, close stage2 too
         stage.setOnCloseRequest(e -> stage2.close());
+        // when closing stage, shutdown db connections
         stage.setOnHiding(e -> {
             try {
                 controller.checkoutPageController.db.shutdown();
@@ -49,9 +52,14 @@ public class HelloApplication extends Application {
             CheatSheetController controller2 = (CheatSheetController)(loader2.getController());
             stage2.setTitle("Item Cheat Sheet");
             stage2.setScene(new Scene(root2, 450, 450));
+
+            // forces cheat sheet to display on top of all other windows
             stage2.setAlwaysOnTop(true);
+            // hides minimize/maximize button for cheat sheet
             stage2.initStyle(StageStyle.UTILITY);
+            // ignores the "close event" for stage 2 (consumes it)
             stage2.setOnCloseRequest(e->e.consume());
+            // when closing stage2, shutdown db connection
             stage2.setOnHiding(e -> {
                 try {
                     controller2.db.shutdown();

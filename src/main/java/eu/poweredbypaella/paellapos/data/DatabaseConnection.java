@@ -2,6 +2,8 @@ package eu.poweredbypaella.paellapos.data;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseConnection {
@@ -30,7 +32,11 @@ public class DatabaseConnection {
 
     // Get receipt/receipt lines
     private PreparedStatement pGetReceipt;
+    private PreparedStatement pDeleteReceipt;
+    private PreparedStatement pGetAllReceiptLines;
     private PreparedStatement pGetReceiptLines;
+    private PreparedStatement pDeleteReceiptLines;
+    private PreparedStatement pGetReceipts;
 
     // Add receipt/receipt lines
     private PreparedStatement pAddReceipt;
@@ -40,8 +46,11 @@ public class DatabaseConnection {
     private PreparedStatement pGetOrder;
     private PreparedStatement pGetOrders;
     private PreparedStatement pUpdateOrder;
+    private PreparedStatement pUpdateOrderItem;
+    private PreparedStatement pGetAllOrderLines;
     private PreparedStatement pGetOrderLines;
     private PreparedStatement pDeleteOrder;
+    private PreparedStatement pDeleteOrderItem;
     private PreparedStatement pDeleteOrderLines;
 
     // Add order/order lines
@@ -81,7 +90,11 @@ public class DatabaseConnection {
 
             // Get receipt/receipt lines
             pGetReceipt = conn.prepareStatement( "SELECT transaction_date, total, is_cash, employee_id FROM receipts WHERE id = ?");
+            pDeleteReceipt = conn.prepareStatement( "DELETE FROM receipts WHERE id = ?");
             pGetReceiptLines = conn.prepareStatement( "SELECT item_id, quantity FROM receipt_lines WHERE receipt_id = ?");
+            pGetAllReceiptLines = conn.prepareStatement( "SELECT receipt_id, item_id, quantity FROM receipt_lines");
+            pDeleteReceiptLines = conn.prepareStatement( "DELETE FROM receipt_lines WHERE receipt_id = ?");
+            pGetReceipts = conn.prepareStatement( "SELECT id, transaction_date, total, is_cash, employee_id FROM receipts");
 
             // Add receipt/receipt lines
             pAddReceipt = conn.prepareStatement("INSERT INTO receipts (id, transaction_date, total, is_cash, employee_id) VALUES (?, ?, ?, ?, ?)");
@@ -91,8 +104,11 @@ public class DatabaseConnection {
             pGetOrder = conn.prepareStatement("SELECT cost, delivery_date, received FROM orders WHERE id = ?");
             pGetOrders = conn.prepareStatement("SELECT id, cost, delivery_date, received FROM orders");
             pUpdateOrder = conn.prepareStatement("UPDATE orders SET cost = ?, received = ? WHERE id = ?");
+            pUpdateOrderItem = conn.prepareStatement("UPDATE order_lines SET quantity = ? WHERE item_id = ? AND order_id = ?");
             pGetOrderLines = conn.prepareStatement("SELECT item_id, quantity FROM order_lines WHERE order_id = ?");
+            pGetAllOrderLines = conn.prepareStatement("SELECT order_id, item_id, quantity FROM order_lines");
             pDeleteOrder = conn.prepareStatement("DELETE from orders WHERE id = ?");
+            pDeleteOrderItem = conn.prepareStatement("DELETE from order_lines WHERE item_id = ? AND order_id = ?");
             pDeleteOrderLines = conn.prepareStatement("DELETE from order_lines WHERE order_id = ?");
 
             // Add order/order lines
@@ -327,7 +343,8 @@ public class DatabaseConnection {
         result.next();
 
         // Make receipt
-        Receipt receipt = new Receipt(result.getTimestamp("transaction_date"),
+        Receipt receipt = new Receipt(id,
+                                      result.getTimestamp("transaction_date"),
                                       result.getDouble("total"),
                                       result.getInt("employee_id"),
                                       result.getBoolean("is_cash"));
@@ -340,6 +357,53 @@ public class DatabaseConnection {
         }
 
         return receipt;
+    }
+
+    /**
+     * Deletes a receipt from the database.
+     *
+     * @param id The id of the receipt to delete
+     * @throws SQLException if the SQL query failed
+     */
+    public void deleteReceipt(int id) throws SQLException {
+        // Fill in cost, received
+        pDeleteReceipt.setInt(1, id);
+        pDeleteReceipt.executeUpdate();
+
+        // delete the receipt lines
+        pDeleteReceiptLines.setInt(1, id);
+        pDeleteReceiptLines.executeUpdate();
+    }
+
+    /**
+     * Gets all receipts from the database.
+     *
+     * @return The receipts from the database.
+     * @throws SQLException if the SQL query failed
+     */
+    public Collection<Receipt> getReceipts() throws SQLException {
+        ResultSet result = pGetReceipts.executeQuery();
+
+        HashMap<Integer, Receipt> receipts = new HashMap<>();
+        while (result.next()) {
+            // Make receipt
+            Receipt receipt = new Receipt(result.getInt("id"),
+                                          result.getTimestamp("transaction_date"),
+                                          result.getDouble("total"),
+                                          result.getInt("employee_id"),
+                                          result.getBoolean("is_cash"));
+            // Insert receipt into map
+            receipts.put(receipt.id, receipt);
+        }
+
+        result = pGetAllReceiptLines.executeQuery();
+        while (result.next()) {
+            // Insert line
+            int id = result.getInt("receipt_id");
+            receipts.get(id).addItem(result.getInt("item_id"), result.getDouble("quantity"));
+        }
+
+        return receipts.values();
     }
 
     /**
@@ -414,30 +478,28 @@ public class DatabaseConnection {
      * @return The orders from the database.
      * @throws SQLException if the SQL query failed (or if no item found with that ID)
      */
-    public List<Order> getOrders() throws SQLException {
+    public Collection<Order> getOrders() throws SQLException {
         ResultSet result = pGetOrders.executeQuery();
 
-        List<Order> orders = new ArrayList<>();
+        HashMap<Integer, Order> orders = new HashMap<>();
         while (result.next()) {
-
             // Make order
             Order order = new Order(result.getInt("id"),
-                                    result.getDouble("cost"),
-                                    result.getTimestamp("delivery_date"),
-                                    result.getBoolean("received"));
-
-            // Fill in order lines
-            pGetOrderLines.setInt(1, order.id);
-            ResultSet resultLines = pGetOrderLines.executeQuery();
-            while (resultLines.next()) {
-                order.addItem(resultLines.getInt("item_id"), resultLines.getDouble("quantity"));
-            }
-
-            // Add order to list
-            orders.add(order);
+                    result.getDouble("cost"),
+                    result.getTimestamp("delivery_date"),
+                    result.getBoolean("received"));
+            // Insert receipt into map
+            orders.put(order.id, order);
         }
 
-        return orders;
+        result = pGetAllOrderLines.executeQuery();
+        while (result.next()) {
+            // Insert line
+            int id = result.getInt("order_id");
+            orders.get(id).addItem(result.getInt("item_id"), result.getDouble("quantity"));
+        }
+
+        return orders.values();
     }
 
     /**
@@ -447,30 +509,27 @@ public class DatabaseConnection {
      * @param order The new order data.
      * @throws SQLException if the SQL query failed
      */
-    public void updateOrder(int id, Order order) throws SQLException {
+    public void updateOrderInfo(int id, Order order) throws SQLException {
         // Fill in cost, received
         pUpdateOrder.setDouble(1, order.cost);
         pUpdateOrder.setBoolean(2, order.received);
         pUpdateOrder.setInt(3, id);
         pUpdateOrder.executeUpdate();
+    }
 
-        // delete the receipt lines
-        pDeleteOrderLines.setInt(1, id);
-        pDeleteOrderLines.executeUpdate();
-
-
-        // add in the receipt lines
-        for (Integer itemID : order.getItems()) {
-            // Get quantity
-            double quantity = order.items.get(itemID);
-
-            // Fill out order_id, item_id, quantity
-            pAddOrderLine.setInt(1, id);
-            pAddOrderLine.setInt(2, itemID);
-            pAddOrderLine.setDouble(3, quantity);
-
-            pAddOrderLine.executeUpdate();
-        }
+    /**
+     * Updates an item in an order
+     *
+     * @param orderId The id of the receipt to update into
+     * @param item The new data of the item
+     * @throws SQLException if the SQL query failed
+     */
+    public void updateOrderItem(int orderId, Item item) throws SQLException {
+        // Fill in item_id, quantity, item_id, order_id
+        pUpdateOrderItem.setDouble(1, item.quantity);
+        pUpdateOrderItem.setInt(2, item.id);
+        pUpdateOrderItem.setInt(3, orderId);
+        pUpdateOrderItem.executeUpdate();
     }
 
     /**
@@ -488,6 +547,21 @@ public class DatabaseConnection {
         pDeleteOrderLines.setInt(1, id);
         pDeleteOrderLines.executeUpdate();
     }
+
+    /**
+     * Deletes an item from an order.
+     *
+     * @param orderId The id of the receipt to delete from
+     * @param itemId The id of the item to delete
+     * @throws SQLException if the SQL query failed
+     */
+    public void deleteOrderItem(int orderId, int itemId) throws SQLException {
+        // Fill in item_id, order_id
+        pDeleteOrderItem.setInt(1, itemId);
+        pDeleteOrderItem.setInt(2, orderId);
+        pDeleteOrderItem.executeUpdate();
+    }
+
 
     /**
      * Adds an order from the database.
