@@ -25,6 +25,8 @@ public class OrderPlacementsController {
     @FXML
     private Label welcomeText;
 
+    // NAVIGATION
+
 
     public void switchToManagerMenu(ActionEvent event) throws IOException {
         parent.openManagerMenuPage();
@@ -58,6 +60,16 @@ public class OrderPlacementsController {
         parent.openReceiptsPage();
     }
 
+
+    // BUTTON ACTIONS
+
+
     @FXML
-    protected void onPlaceOrderClick() {}
+    protected void orderClearAllClick(){}
+    @FXML
+    protected void orderClearRowClick() {}
+    @FXML
+    protected void orderPlacementEnterClick() {}
+    @FXML
+    protected void orderPlacementClick() {}
 }
