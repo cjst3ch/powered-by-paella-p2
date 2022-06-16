@@ -3,7 +3,7 @@ package eu.poweredbypaella.paellapos.controllers;
 import eu.poweredbypaella.paellapos.data.DatabaseConnection;
 import eu.poweredbypaella.paellapos.data.Item;
 import eu.poweredbypaella.paellapos.data.Order;
-import eu.poweredbypaella.paellapos.data.Receipt;
+import eu.poweredbypaella.paellapos.data.OrderItemView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,18 +27,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class OrderPlacementsController implements Initializable {
-
-    public class OrderItemView extends Item {
-        public double toBuy;
-        OrderItemView(Item item) {
-            super(item.id, item.name, item.price, item.byWeight, item.quantity);
-            this.toBuy = 0;
-        }
-
-        public Double getToBuy() {
-            return toBuy;
-        }
-    }
 
     @FXML
     public AnchorPane root;
